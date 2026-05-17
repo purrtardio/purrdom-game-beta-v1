@@ -1,0 +1,19 @@
+A) Source traits (verbatim, from metadata.json)
+
+Accessories: Pet Triceratops Purr
+Background: Solid Lavender
+Big Accessories: None
+Body: Purr
+Clothing: Denim Shirt
+Eyes: Monocle
+Head: Cowboy Hat
+Mouth: Gasp
+Tail: None
+
+B) Visual ground truth (from AVIF; literal; no guessing)
+
+The reference is a close-up portrait on a solid lavender background. The main character is a white Hypurr cat with light cyan-blue shadowing on the lower face/body. The cat wears a large brown cowboy hat with a curled brim, dark band, gold studs, and a red feather on the viewer-left side. A round glass monocle with dark rim and cord is over the cat's viewer-left eye. The visible eye is a black oval with teal shading. The mouth is a small gasp expression with a pink tongue. The cat wears an open blue denim jacket over a teal-and-white striped shirt, with dark pants and a brown belt visible near the bottom of the crop. No tail is visible. A small green triceratops pet appears at the lower left, with cream horns, teal spots, and a teal-striped tail.
+
+C) Trait reconciliation (metadata tie-break)
+
+Use metadata as canonical if a detail conflicts with the AVIF. The Accessories trait is Pet Triceratops Purr, so the green triceratops pet is required in all 16 frames. Big Accessories is None, so do not add any big accessory beyond the listed traits. Tail is None, so do not add a cat tail. Background is Solid Lavender in the source NFT, but the generated raw walk sheet must use the processing background: solid #FF00FF magenta.

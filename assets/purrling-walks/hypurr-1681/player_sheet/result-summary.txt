@@ -1,0 +1,35 @@
+Result: PASS
+
+Bundle path:
+/Users/chnokvu/Trifecta/Projects/sprite-forger/hypurr-walks/hypurr-1681/player_sheet
+
+Generated outputs:
+- raw-sheet.png: 1024x1024 PNG, 4x4 grid, exact #FF00FF background.
+- sheet-transparent.png: 1024x1024 transparent processed sheet.
+- 16 transparent frame PNGs with down/left/right/up labels.
+- Direction strips: down-strip.png, left-strip.png, right-strip.png, up-strip.png.
+- Direction GIFs/APNGs: down, left, right, up.
+- Combined animation.gif and animation.apng.
+- pipeline-meta.json, prompt-used.txt, identity.txt, prompt.txt.
+
+QC:
+- Processor command used repo script: scripts/generate2dsprite.py process.
+- Processor flags included: --edge-touch-margin 2 --edge-clean-depth 6 --stabilize --align feet --reject-edge-touch --component-mode all.
+- pipeline-meta.json reports 16 frames and edge_touch=false for every frame.
+- Independent padding check found at least 13px transparent/magenta margin in every 256x256 cell.
+- raw-sheet.png corners and 12px cell borders are pure #FF00FF.
+- Visual QC: no clipping observed; torso/hips remain stable within each direction; frog remains held close with no prop teleport; all required identity elements are present.
+
+Metadata tie-break notes:
+- Metadata is canonical for trait naming.
+- Accessories = "Pet Bullfrog Purr"; the bullfrog appears in all 16 frames.
+- Big Accessories = "None"; no large accessory was added.
+- Body = "Purr"; rendered as the white/light-cyan Hypurr cat visible in the AVIF.
+- Clothing = "Hawaiian Shirt Slate Blue"; rendered as a slate-blue tropical floral shirt.
+- Eyes = "Aviator Gold"; rendered as gold aviator glasses.
+- Head = "Earrings Purr "; rendered as gold ear hoops, preserving the metadata trait spelling in identity/prompt files.
+- Mouth = "Leaf"; rendered as a green leaf in the mouth.
+- Tail = "Tail Purr White"; rendered as a white/light-cyan tail.
+
+Notes:
+- The built-in image generator initially returned a 1254x1254 image with near-magenta background pixels. It was normalized to 1024x1024 with nearest-neighbor resizing, then the final raw sheet was normalized to exact #FF00FF and reprocessed through the repo script.

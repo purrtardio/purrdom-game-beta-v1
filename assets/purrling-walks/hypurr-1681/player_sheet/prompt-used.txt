@@ -1,0 +1,90 @@
+INTERNAL_TAG: hypurr-1681.run-codex-mcp-20260516T193703Z.w7.20260516T213704.26ea50d0
+
+Create a raw 1024x1024 PNG player walk sprite sheet for Hypurr #1681.
+This internal tag is for tracking only and must not appear as visible text in the image.
+Do not render any text, labels, arrows, grid labels, watermarks, signatures, or UI.
+
+SHEET FORMAT
+- Exact canvas: 1024x1024 pixels.
+- Exact layout: 4 columns x 4 rows, each cell 256x256 pixels.
+- Solid flat #FF00FF background in every cell, with no transparency, no gradients, no shadows, and no texture.
+- Row order: row 1 down, row 2 left, row 3 right, row 4 up.
+- Column order: walk step 1, step 2, step 3, step 4.
+- Pixel-art game sprite style, clean readable silhouette, crisp edges, limited anti-aliasing.
+- Keep at least 12px pure #FF00FF padding between the visible sprite and every cell edge in every frame.
+- Keep the same character scale, torso position, hip position, and ground/feet anchor within each direction. Only limbs, tail, leaf, shirt hem, and the held frog may move subtly for walking.
+- No camera zoom changes, no body sliding, no prop teleporting, no missing props.
+
+TRAITS (verbatim)
+{
+  "attributes": [
+    {
+      "value": "Pet Bullfrog Purr",
+      "trait_type": "Accessories"
+    },
+    {
+      "value": "Solid Jade",
+      "trait_type": "Background"
+    },
+    {
+      "value": "None",
+      "trait_type": "Big Accessories"
+    },
+    {
+      "value": "Purr",
+      "trait_type": "Body"
+    },
+    {
+      "value": "Hawaiian Shirt Slate Blue",
+      "trait_type": "Clothing"
+    },
+    {
+      "value": "Aviator Gold",
+      "trait_type": "Eyes"
+    },
+    {
+      "value": "Earrings Purr ",
+      "trait_type": "Head"
+    },
+    {
+      "value": "Leaf",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Tail Purr White",
+      "trait_type": "Tail"
+    }
+  ],
+  "description": "",
+  "image": "ipfs://bafybeihidzed5xyocm5dqcefssfuorxrlrb4mjqrvhdzqn2zcsjfaiavni",
+  "name": "Hypurr #1681"
+}
+
+VISUAL SPEC (from AVIF)
+- White Hypurr cat with light cyan-blue body and side shading.
+- White tail with light cyan-blue shading.
+- Two pointed white ears; pink inner left ear, cyan-blue accent on the other ear.
+- Gold hoop earrings on both ears; multiple gold hoops on the left ear.
+- Gold/yellow aviator glasses with dark green/black frame and glossy highlights.
+- Gray forehead stripes above the glasses.
+- Thin dark cheek whiskers.
+- Green leaf held in the mouth.
+- Slate-blue Hawaiian shirt with teal/cyan tropical floral and leaf pattern.
+- Green bullfrog held close at the cat's front/right side; frog has orange eyes, yellow mouth, darker green limbs, pale belly, and small glossy highlights.
+- No other pet, companion, weapon, bag, hat, or extra accessory.
+
+MUST APPEAR IN ALL 16 FRAMES
+- Same white/light-cyan Hypurr cat.
+- Slate-blue Hawaiian floral shirt.
+- Gold aviator glasses.
+- Gold ear hoops/earrings.
+- Green leaf in mouth.
+- White/light-cyan tail.
+- Pet Bullfrog Purr, held close to the cat, never detached and never replaced by another animal.
+
+ANIMATION NOTES
+- Down row: front-facing walk cycle, frog visible at front/right side, glasses prominent.
+- Left row: side-facing left walk cycle, frog still carried and visible; keep leaf, earrings, shirt, tail.
+- Right row: side-facing right walk cycle, mirrored walking pose but same identity; frog still carried and visible.
+- Up row: back-facing walk cycle, show ears, tail, back of slate-blue Hawaiian shirt, earrings partly visible; frog still present as a carried green bullfrog peeking at the side.
+- Four-step walk cycles should loop smoothly: neutral, left-foot, neutral, right-foot.

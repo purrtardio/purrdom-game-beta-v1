@@ -1,0 +1,28 @@
+A) Source traits (verbatim, from metadata.json)
+- Accessories: Pet Kangaroo Purr
+- Background: Solid Slate Blue
+- Big Accessories: None
+- Body: Purr
+- Clothing: Space Suit Orange
+- Eyes: Round Glasses Light
+- Head: Purr Beanie Black Purr
+- Mouth: Normal
+- Tail: Tail Purr Stripe
+
+B) Visual ground truth (from AVIF; literal; no guessing)
+- Main character is a white/cream Purr cat with pale blue shadow accents and thick dark outlines.
+- Cat wears a floppy dark slate/black beanie with orange seam lines, orange Purr-style lettering on the brim, and a small mint tag near the right side.
+- Cat has round light glasses with pale blue reflective lenses and dark rims.
+- Cat face has a small dark nose, simple normal smiling mouth, and thin dark whiskers.
+- Cat wears an orange space suit with black trim, white vertical strap/panel details, belt sections, and a round blue gauge/device on the front.
+- Cat has white paws with pale blue shading.
+- Tail is visible behind/left of the body, wide and striped in white and pale blue.
+- Pet is a tan/brown kangaroo at the cat's lower-left side, with green inner ears, black sunglasses, a green heart cheek mark, a small red/mauve smile, and dark outlines.
+- The AVIF background is solid slate blue; the generated sprite sheet must replace this with solid #FF00FF.
+
+C) Trait reconciliation (metadata tie-break)
+- Metadata is canonical for required traits and tie-breaks.
+- Accessories requires Pet Kangaroo Purr, so the kangaroo pet must appear in all 16 frames.
+- Big Accessories is None, so no large extra prop or companion beyond the kangaroo pet should be added.
+- Background is Solid Slate Blue in source art only; output sheet background must be solid #FF00FF for processing.
+- Head, Eyes, Clothing, Body, Mouth, and Tail traits match the AVIF and should be preserved in every frame.

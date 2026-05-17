@@ -1,0 +1,31 @@
+A) Source traits (verbatim, from metadata.json)
+- Accessories: None
+- Background: Solid Turquoise
+- Big Accessories: Surfboard Purr
+- Body: Purr
+- Clothing: Baseball Tee Blob Cyan
+- Eyes: Swim Goggles
+- Head: Maine Coon Purr
+- Mouth: Taiyaki
+- Tail: Tail Purr White
+
+B) Visual ground truth (from AVIF; literal; no guessing)
+- White cat character with dark teal/black outline.
+- Large white upright ears; left inner ear is pink.
+- Gray Maine Coon-style stripes on the forehead and gray cheek/body striping.
+- Mint/turquoise swim goggles across the eyes, with blue strap extending around the head.
+- White face and body with pale cyan/blue shading.
+- Light cyan baseball tee with white torso panel and a small blob/fish-like cyan-and-green chest mark.
+- Brown taiyaki fish pastry held at the mouth on the viewer's right side.
+- Large aqua/turquoise surfboard behind the cat, angled diagonally, with dark outline, white highlights, darker teal underside/shadow, and small dark fin/marks near the lower right.
+- White tail with pale blue shading curls on the viewer's left side.
+- Solid turquoise source background.
+- No visible separate companion or pet.
+
+C) Trait reconciliation (metadata tie-break)
+- Use metadata trait names as canonical when naming traits.
+- Accessories is "None"; do not add glasses, hats, jewelry, props, or extra items beyond traits shown.
+- Big Accessories is "Surfboard Purr"; the surfboard must appear in all 16 frames even when the cat faces left, right, down, or up.
+- Mouth is "Taiyaki"; keep the taiyaki visible as a mouth-held pastry in all 16 frames when readable from the direction.
+- Eyes is "Swim Goggles"; render goggles/strap consistently in all directions.
+- No pet trait exists and the AVIF shows no companion; do not invent any pet or companion.

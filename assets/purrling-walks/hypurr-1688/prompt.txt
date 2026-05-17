@@ -1,0 +1,52 @@
+INTERNAL_TAG: hypurr-1688.run-codex-mcp-20260516T151234Z.w50.20260516T171241.f29cc2db
+
+Do not render the INTERNAL_TAG as text. It is a hidden production identifier only.
+
+TRAITS (verbatim)
+- Accessories: None
+- Background: Solid Turquoise
+- Big Accessories: Surfboard Purr
+- Body: Purr
+- Clothing: Baseball Tee Blob Cyan
+- Eyes: Swim Goggles
+- Head: Maine Coon Purr
+- Mouth: Taiyaki
+- Tail: Tail Purr White
+
+VISUAL SPEC (from AVIF)
+- Stylized white Maine Coon Hypurr cat with crisp dark teal/black outlines.
+- Large white upright ears with pink inner ear visible where facing allows.
+- Gray Maine Coon stripes on forehead and cheeks/body.
+- Mint/turquoise swim goggles across the eyes with blue strap.
+- White body with pale cyan/blue shading.
+- Light cyan baseball tee, white torso panel, small cyan-and-green blob/fish-like chest mark.
+- Brown taiyaki fish pastry held in the mouth.
+- Large aqua/turquoise surfboard behind the cat, diagonal when possible, with dark outline, white highlights, darker teal underside/shadow, and small dark fin/marks.
+- White tail with pale blue shading, curled when direction allows.
+- No companion, no pet, no extra accessory.
+
+MUST APPEAR IN ALL 16 FRAMES
+- Same white Maine Coon Hypurr cat identity.
+- Surfboard Purr big accessory, attached/behind the character and never omitted.
+- Swim Goggles with strap.
+- Baseball Tee Blob Cyan.
+- Taiyaki held in mouth.
+- Tail Purr White.
+
+Generate one raw 1024x1024 PNG sprite sheet for a top-down 16-bit RPG player character walk cycle.
+The sheet must be exactly a 4x4 grid of equal 256x256 cells.
+Rows from top to bottom: down, left, right, up.
+Columns from left to right: step 1, step 2, step 3, step 4.
+Walk-cycle timing per row: neutral, left foot forward, neutral, right foot forward.
+
+Use chunky readable pixel art with crisp outlines and full body visible.
+Keep the torso, hips, head, goggles, shirt, mouth-held taiyaki, and surfboard locked in place within each direction; only legs, arms, tail tip, and tiny walking pose accents may move.
+No jitter within a direction: each row must keep the same body scale, same feet anchor, same surfboard anchor, same head position, and same torso/hip position.
+For left and right rows, mirror the same character design while preserving the surfboard, goggles, shirt, tail, and taiyaki.
+For the up row, show the back of the head/body, visible goggle strap, shirt back, tail, and surfboard behind the character; keep the taiyaki only as a small side-mouth silhouette if naturally visible, otherwise tucked but still present.
+
+Containment is strict: every body part, ear tip, tail, surfboard corner, taiyaki, limb, outline, and shadow must fit fully inside its own 256x256 cell with at least 12px of pure magenta padding from every cell edge.
+Use the same silhouette scale in every frame.
+No part may cross or touch any cell edge.
+No borders, grid lines, labels, text, watermarks, UI, shadows outside the character, or floating detached effects.
+Background must be 100% solid flat #FF00FF magenta in every pixel outside the character; no gradients, texture, anti-aliased background, or transparency.

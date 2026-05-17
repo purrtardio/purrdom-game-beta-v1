@@ -1,0 +1,56 @@
+INTERNAL_TAG: hypurr-1783.run-codex-mcp-20260516T142739Z.w5.20260516T162739.3b0d7e8b
+This internal tag is provenance only. Do not draw the tag, letters, numbers, labels, captions, UI, or any other text in the image.
+
+TRAITS (verbatim)
+Accessories: Pet Triceratops Purr
+Background: Solid Lavender
+Big Accessories: None
+Body: Purr
+Clothing: Denim Shirt
+Eyes: Monocle
+Head: Cowboy Hat
+Mouth: Gasp
+Tail: None
+
+VISUAL SPEC (from AVIF)
+White Hypurr cat with light cyan-blue shadowing, large brown cowboy hat with curled brim, dark band, small gold studs, and red feather on the side; round glass monocle with dark rim and cord over the cat's left eye when facing down; small gasp mouth with pink tongue; open blue denim jacket over a teal-and-white striped shirt; dark pants and brown belt. No cat tail. Small green triceratops pet with cream horns, teal spots, and teal-striped tail beside the cat. Use the same character and pet identity in every frame.
+
+MUST APPEAR IN ALL 16 FRAMES
+- The white Hypurr cat body.
+- Brown cowboy hat with curled brim and red feather.
+- Round monocle with dark rim and cord, visible on the appropriate near eye for each direction.
+- Blue denim shirt/jacket over teal-and-white striped shirt.
+- Gasp mouth where the face is visible.
+- Small green triceratops pet with cream horns, teal spots, and teal-striped tail.
+- No tail and no additional companions, pets, props, speech bubbles, or background objects.
+
+Generate a complete top-down 2D pixel-art RPG player walk sheet as one 1024x1024 PNG.
+
+Canvas and grid:
+- Exact 4x4 grid, four equal rows and four equal columns.
+- Each cell is exactly 256x256 pixels.
+- Row 1: down-facing walk.
+- Row 2: left-facing walk.
+- Row 3: right-facing walk.
+- Row 4: up-facing walk.
+- Columns 1..4 are step 1, step 2, step 3, step 4.
+- Use column poses: neutral, left foot forward, neutral again, right foot forward.
+- No grid lines, no borders, no gutters, no labels.
+- The entire background of every cell must be pure flat solid #FF00FF magenta, exact RGB 255,0,255, with no gradient, no texture, and no antialias halo in the background.
+
+Sprite style:
+- Chibi full-body overworld sprite, 3/4 top-down view from slightly above, readable as a 16-bit RPG character.
+- Crisp dark outlines, clean cel-shaded pixel-art shapes, compact readable silhouette.
+- Do not make a portrait or close-up; the whole cat, hat, feather, monocle cord, denim outfit, feet, and triceratops pet must fit fully inside each 256x256 cell.
+- Keep the combined cat-plus-pet scale consistent in all frames and directions.
+
+Motion and stability:
+- In each direction row, lock the cat torso, hips, head, hat, monocle, and pet body to the same anchor position across all four columns.
+- Only animate the cat legs, arms, clothing hems, monocle cord swing, and pet legs with small walk-cycle changes.
+- The pet stays close to the cat in the same relative position for that direction; it must not teleport, disappear, change species, or become a separate unrelated animal.
+- Direction rows may rotate the character, but the identity, outfit, hat, monocle, and pet remain consistent.
+
+Containment:
+- Leave at least 20 pixels of pure #FF00FF padding on all four sides of every 256x256 cell around the entire combined silhouette, including hat brim, red feather, monocle cord, arms, legs, and triceratops pet.
+- No body part, hat brim, feather, pet horn, pet tail, limb, or cord may touch or cross a cell edge.
+- No detached debris or floating effects outside the main character and pet silhouette.

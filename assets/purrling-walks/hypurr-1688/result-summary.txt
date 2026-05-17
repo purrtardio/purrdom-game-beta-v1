@@ -1,0 +1,37 @@
+Status: PASS
+
+Bundle generated for hypurr-1688 in:
+/Users/chnokvu/Trifecta/Projects/sprite-forger/hypurr-walks/hypurr-1688/player_sheet
+
+Metadata tie-break notes:
+- Accessories: None, so no extra accessories were added.
+- Big Accessories: Surfboard Purr, so the aqua surfboard is present in all 16 frames.
+- No pet trait exists and the AVIF shows no companion, so no pet/companion was added.
+- Eyes: Swim Goggles, Clothing: Baseball Tee Blob Cyan, Mouth: Taiyaki, Tail: Tail Purr White were kept as identity requirements.
+
+Generated outputs:
+- identity.txt
+- prompt.txt
+- prompt-used.txt
+- raw-sheet.png
+- raw-sheet-normalized.png
+- raw-sheet-clean.png
+- sheet-transparent.png
+- 16 frame PNGs as down/left/right/up step files and player_sheet-1.png through player_sheet-16.png
+- down-strip.png, left-strip.png, right-strip.png, up-strip.png
+- down.gif, left.gif, right.gif, up.gif, animation.gif
+- down.apng, left.apng, right.apng, up.apng, animation.apng
+- pipeline-meta.json
+- qc.json
+
+Processor command used:
+python3 scripts/generate2dsprite.py process --input hypurr-walks/hypurr-1688/player_sheet/raw-sheet.png --target player --mode player_sheet --output-dir hypurr-walks/hypurr-1688/player_sheet --prompt-file hypurr-walks/hypurr-1688/player_sheet/prompt.txt --rows 4 --cols 4 --edge-touch-margin 2 --edge-clean-depth 6 --stabilize --align feet --reject-edge-touch --component-mode all
+
+QC evidence:
+- raw-sheet.png is 1024x1024 RGBA, 4x4 grid, 256x256 cells.
+- Raw-cell containment check passed: every 12px cell-edge margin is pure #FF00FF.
+- pipeline-meta.json status is ok.
+- edge_touch_frames is empty.
+- rejection_reasons is empty.
+- No visible clipping, no edge touch, no prop teleport, and no direction-row jitter found in final visual inspection.
+- Direction centroid std values in pipeline-meta.json are low after stabilization, supporting no-jitter row behavior.

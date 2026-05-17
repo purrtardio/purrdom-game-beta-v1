@@ -1,0 +1,68 @@
+A) Source traits (verbatim, from metadata.json)
+{
+  "attributes": [
+    {
+      "value": "Pet Bullfrog Purr",
+      "trait_type": "Accessories"
+    },
+    {
+      "value": "Solid Jade",
+      "trait_type": "Background"
+    },
+    {
+      "value": "None",
+      "trait_type": "Big Accessories"
+    },
+    {
+      "value": "Purr",
+      "trait_type": "Body"
+    },
+    {
+      "value": "Hawaiian Shirt Slate Blue",
+      "trait_type": "Clothing"
+    },
+    {
+      "value": "Aviator Gold",
+      "trait_type": "Eyes"
+    },
+    {
+      "value": "Earrings Purr ",
+      "trait_type": "Head"
+    },
+    {
+      "value": "Leaf",
+      "trait_type": "Mouth"
+    },
+    {
+      "value": "Tail Purr White",
+      "trait_type": "Tail"
+    }
+  ],
+  "description": "",
+  "image": "ipfs://bafybeihidzed5xyocm5dqcefssfuorxrlrb4mjqrvhdzqn2zcsjfaiavni",
+  "name": "Hypurr #1681"
+}
+
+B) Visual ground truth (from AVIF; literal; no guessing)
+- Portrait on a flat pale jade background.
+- White cat head and body with light cyan-blue side shading and a white tail with light cyan-blue shading.
+- Two pointed white ears; the left inner ear is pink, the right ear shows a cyan-blue inner accent.
+- Gold hoop earrings on both ears, with the left ear showing multiple gold hoops.
+- Gold/yellow aviator glasses with dark green/black frames, large lenses, and white highlights.
+- Gray forehead stripes above the glasses.
+- Thin dark whisker lines extend from the cheeks.
+- A green leaf stem is held in the mouth area on the right side of the face.
+- Slate-blue Hawaiian shirt with teal/cyan floral and leaf pattern.
+- A green bullfrog is held in front on the cat's right/front side; it has orange eyes, yellow mouth, darker green limbs, pale belly, and glossy highlights.
+- No other companion or pet is visible.
+
+C) Trait reconciliation (metadata tie-break)
+- Metadata is canonical for trait naming.
+- Accessories = "Pet Bullfrog Purr"; this is a metadata-driven non-cat element and must appear in all 16 frames.
+- Big Accessories = "None"; no large accessory should be added.
+- Body = "Purr" maps to the white/light-cyan cat body visible in the AVIF.
+- Clothing = "Hawaiian Shirt Slate Blue" maps to the visible slate-blue floral shirt.
+- Eyes = "Aviator Gold" maps to the gold aviator glasses visible in the AVIF.
+- Head = "Earrings Purr " maps to the visible gold ear hoops; preserve the trailing-space metadata spelling in source traits.
+- Mouth = "Leaf" maps to the visible green leaf in the mouth.
+- Tail = "Tail Purr White" maps to the visible white tail with light cyan-blue shading.

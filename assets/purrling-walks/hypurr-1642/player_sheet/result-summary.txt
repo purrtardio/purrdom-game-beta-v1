@@ -1,0 +1,30 @@
+Result: PASS
+
+Run id: codex-mcp-20260516T193703Z
+Worker id: 46
+Hypurr id: hypurr-1642
+Output directory: hypurr-walks/hypurr-1642/player_sheet
+
+Generated bundle outputs:
+- raw-sheet.png: 1024x1024 PNG, 4x4 grid, 256x256 cells, solid #FF00FF background.
+- raw-sheet-normalized.png and raw-sheet-clean.png: processor-normalized intermediates.
+- sheet-transparent.png: transparent 4x4 processed sheet.
+- player_sheet-1.png through player_sheet-16.png plus named direction frames.
+- down/left/right/up strips, GIFs, and APNGs.
+- animation.gif and animation.apng.
+- pipeline-meta.json and prompt-used.txt.
+
+Metadata tie-break notes:
+- Accessories is Pet Kangaroo Purr, so the kangaroo pet is included in all 16 frames.
+- Big Accessories is None, so no large accessory or extra prop was added.
+- Background is Solid Slate Blue in metadata/source art, but output uses required solid #FF00FF for processing.
+- Head, eyes, clothing, body, mouth, and tail traits were reconciled against the AVIF and preserved in the prompt.
+
+QC summary:
+- pipeline-meta.json status: ok.
+- edge_touch_frames: none.
+- rejection_reasons: none.
+- Raw sheet 12px per-cell #FF00FF margin check: pass.
+- Processed frame alpha edge-touch check with margin 2: pass.
+- Visible #FF00FF key pixels in processed frames: none.
+- Visual pass: pet remains present in all frames, no invented companions, no obvious clipping, no prop teleport, and torso/feet alignment is stable within each direction.

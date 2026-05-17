@@ -1,0 +1,38 @@
+Result: PASS
+
+Generated bundle for hypurr-1783 in:
+/Users/chnokvu/Trifecta/Projects/sprite-forger/hypurr-walks/hypurr-1783/player_sheet
+
+Source and prompt:
+- Reference AVIF inspected: /Users/chnokvu/Trifecta/Projects/sprite-forger/hypurr-sprites/1783.avif
+- Metadata inspected: nft-assets/hypurr/1783/metadata.json
+- identity.txt and prompt.txt written with canonical traits and visual notes.
+- prompt-used.txt matches prompt.txt.
+- Image generation prompt included INTERNAL_TAG: hypurr-1783.run-codex-mcp-20260516T142739Z.w5.20260516T162739.3b0d7e8b
+
+Metadata tie-break notes:
+- Accessories: Pet Triceratops Purr is canonical, so the green triceratops pet is included in all 16 frames.
+- Big Accessories: None, so no big accessory was added.
+- Tail: None, so no cat tail was added.
+- Background: Solid Lavender applies to the source NFT, but the raw processing sheet uses required solid #FF00FF magenta.
+
+Final outputs:
+- raw-sheet.png: 1024x1024 PNG, 4x4 grid, 256x256 cells, solid #FF00FF background.
+- raw-sheet-clean.png: 1024x1024 cleaned transparent 4x4 sheet.
+- sheet-transparent.png: transparent processed sheet.
+- 16 frame PNGs: down-1..4, left-1..4, right-1..4, up-1..4, plus player_sheet-1..16 aliases.
+- Direction strips: down-strip.png, left-strip.png, right-strip.png, up-strip.png.
+- GIF/APNG outputs: down, left, right, up, and full animation.
+- pipeline-meta.json and qc.json produced by the repo processor.
+
+Processor command:
+python3 scripts/generate2dsprite.py process --input hypurr-walks/hypurr-1783/player_sheet/raw-sheet.png --target player --mode player_sheet --output-dir hypurr-walks/hypurr-1783/player_sheet --prompt-file hypurr-walks/hypurr-1783/player_sheet/prompt.txt --rows 4 --cols 4 --edge-touch-margin 2 --edge-clean-depth 6 --stabilize --align feet --reject-edge-touch --component-mode all --duration 200 --cell-size 96 --animation-cell-size 128
+
+QC:
+- pipeline-meta.json status: ok
+- edge_touch_frames: []
+- rejection_reasons: []
+- Raw 256px-cell minimum margin: 12px.
+- Clean 256px-cell minimum margin: 12px.
+- No exact #FF00FF key pixels remain visible in processed transparent frames.
+- Visual QC: no clipping observed; no edge touch observed; cat torso/hat anchors are stable within each direction after stabilization; triceratops pet remains present and close to the cat in all 16 frames; no invented extra pets or companions observed.

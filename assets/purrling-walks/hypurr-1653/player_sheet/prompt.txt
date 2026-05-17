@@ -1,0 +1,29 @@
+INTERNAL_TAG: hypurr-1653.run-codex-mcp-20260516T193703Z.w35.20260516T213708.2e5054da
+
+TRAITS (verbatim)
+- Accessories: None
+- Background: Solid Pacific Green
+- Big Accessories: Skateboard Cyan Purr
+- Body: Purr
+- Clothing: Batik Shirt 
+- Eyes: Round Glasses Light
+- Head: Purr Beanie Light Purr
+- Mouth: Happy Pink
+- Tail: Tail Purr White
+
+VISUAL SPEC (from AVIF)
+Create a complete top-down 2D pixel-art RPG player walk sheet for Hypurr #1653. Use chunky readable pixel art with crisp dark outlines and a 3/4 overhead game-sprite style. The character is a white / cream purr cat with cyan-blue body shadows and a large white tail with pale cyan shading. The cat wears a light cyan and white oversized purr beanie with pale blue vertical panel lines, a pale mint band, and dark purr-lettering marks on the band as part of the hat design. The cat has round light glasses with thick dark rims, pale cyan lenses, bright highlights, and dark pupils where visible. The mouth is happy pink with an open tongue and small fangs where the face is visible. The clothing is a light gray and pale blue batik shirt with blue floral / swirl patterning and dark outlines. Include the cyan skateboard big accessory in every frame: rounded cyan deck, blue underside edge, small bolts, and brown wheels. The skateboard should move with the character and never teleport.
+
+Sheet format: exactly 1024x1024 PNG, exactly 4 rows by 4 columns, each cell exactly 256x256. Row 1 is down, row 2 is left, row 3 is right, row 4 is up. Columns are walk steps 1 through 4: neutral, left-foot-forward, neutral, right-foot-forward. Keep every sprite small and centered inside its own invisible cell. Leave large empty magenta gutters, preferably at least 32px clear magenta padding on all four sides of every cell and never less than 12px. Keep the torso, hips, head, beanie, glasses, shirt body, tail root, and skateboard body locked within each direction row; only legs, arms, tail tip, and small skateboard wheel/angle motion may animate. Use the same silhouette scale and same ground position in all four frames of each direction.
+
+Containment and background: the entire character, tail, skateboard, wheels, paws, beanie, and any held/attached part must fit fully inside each 256x256 cell with at least 12 pixels of pure #FF00FF padding from every cell edge. Use a solid flat #FF00FF background across the full sheet. No gradients in the background, no borders, no frame dividers, no shadows touching edges, no labels, no UI, no speech bubbles. Do not render the INTERNAL_TAG as text.
+
+MUST APPEAR IN ALL 16 FRAMES
+- White / cream purr cat body with cyan-blue accents.
+- Large white tail with pale cyan shading.
+- Light cyan and white purr beanie with pale mint band and dark purr-lettering marks.
+- Round light glasses where the face is visible for that direction.
+- Happy pink mouth where the face is visible for that direction.
+- Light gray / pale blue batik shirt with blue floral or swirl pattern.
+- Cyan skateboard big accessory with rounded deck, blue underside edge, bolts, and brown wheels.
+- No pet, no companion, no extra accessory.

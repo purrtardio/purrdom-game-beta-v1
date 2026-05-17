@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "updatedAt": "2026-05-16T19:43:52Z",
+  "updatedBy": "codex-worker-7",
+  "hypurrId": "hypurr-1681",
+  "checks": {
+    "rawSheetSize": "1024x1024",
+    "grid": "4x4 cells, 256x256 each",
+    "rawBackground": "exact #FF00FF",
+    "minimumCellPaddingPx": 13,
+    "edgeTouchCount": 0,
+    "frameCount": 16,
+    "componentMode": "all",
+    "frogInAllFrames": true,
+    "metadataTieBreakApplied": true
+  }
+}

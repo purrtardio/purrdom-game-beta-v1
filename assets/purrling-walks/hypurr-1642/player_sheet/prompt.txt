@@ -1,0 +1,49 @@
+INTERNAL_TAG: hypurr-1642.run-codex-mcp-20260516T193703Z.w46.20260516T213709.20767b67
+
+Generate a raw 1024x1024 PNG sprite sheet for a top-down 2D pixel-art RPG player character.
+
+TRAITS (verbatim)
+- Accessories: Pet Kangaroo Purr
+- Background: Solid Slate Blue
+- Big Accessories: None
+- Body: Purr
+- Clothing: Space Suit Orange
+- Eyes: Round Glasses Light
+- Head: Purr Beanie Black Purr
+- Mouth: Normal
+- Tail: Tail Purr Stripe
+
+VISUAL SPEC (from AVIF)
+- Main character: white/cream Purr cat with pale blue shadow accents and thick dark outlines.
+- Head: floppy dark slate/black Purr beanie with orange seam lines, orange Purr-style lettering/logo marks on the brim, and a small mint tag near the right side.
+- Eyes: round light glasses with pale blue reflective lenses and dark rims.
+- Face: small dark nose, simple normal smiling mouth, thin dark whiskers.
+- Clothing: orange space suit with black trim, white vertical strap/panel details, belt sections, and a round blue gauge/device on the front.
+- Paws: white paws with pale blue shading.
+- Tail: wide striped Purr tail in white and pale blue, attached behind/left of body.
+- Pet: tan/brown kangaroo beside the cat, green inner ears, black sunglasses, green heart cheek mark, small red/mauve smile, dark outlines.
+
+MUST APPEAR IN ALL 16 FRAMES
+- White/cream Purr cat body with pale blue shadow accents.
+- Dark slate/black Purr beanie with orange seam lines, orange Purr-style brim marks, and mint tag.
+- Round light glasses with pale blue lenses.
+- Orange space suit with black trim, white strap/panel details, belt, and blue round front gauge.
+- Wide white/pale-blue striped Purr tail.
+- Pet Kangaroo Purr, anchored beside the cat with sunglasses, green inner ears, and green heart cheek mark.
+
+SHEET AND ANIMATION REQUIREMENTS
+- Canvas is exactly 1024x1024 pixels.
+- Exactly 4 rows by 4 columns of equal 256x256 cells.
+- Row order: row 1 down, row 2 left, row 3 right, row 4 up.
+- Column order: step 1, step 2, step 3, step 4.
+- Walking cycle per direction: col 1 neutral, col 2 one foot forward, col 3 neutral again, col 4 opposite foot forward.
+- Each row uses the same torso/hips position with no jitter; only legs, arms, tail, and the kangaroo pet's small walking limb motion change.
+- Pet Kangaroo Purr stays close beside the cat in every frame and never teleports or disappears.
+- Same character identity, same scale, same bounding box, same feet anchor in all frames.
+- The entire cat, tail, and kangaroo pet fit fully inside each 256x256 cell.
+- Leave at least 12 pixels of pure #FF00FF padding from every cell edge in every frame.
+- No body part, tail, glasses, beanie tip, suit part, pet ear, pet tail, sparkle, shadow, or prop may cross or touch a cell edge.
+- Background is 100% solid flat #FF00FF in every pixel outside the characters.
+- No borders, no grid lines, no labels, no UI, no speech bubbles, no extra text outside the beanie's own orange Purr-style marks.
+- Do not render the INTERNAL_TAG as visible text.
+- Do not add any other pets, companions, weapons, props, or detached effects.

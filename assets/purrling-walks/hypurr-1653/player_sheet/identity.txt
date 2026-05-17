@@ -1,0 +1,28 @@
+A) Source traits (verbatim, from metadata.json)
+- Accessories: None
+- Background: Solid Pacific Green
+- Big Accessories: Skateboard Cyan Purr
+- Body: Purr
+- Clothing: Batik Shirt 
+- Eyes: Round Glasses Light
+- Head: Purr Beanie Light Purr
+- Mouth: Happy Pink
+- Tail: Tail Purr White
+
+B) Visual ground truth (from AVIF; literal; no guessing)
+- White / cream purr cat with cyan-blue shadow accents on the body and tail.
+- Large white tail with pale cyan shading, visible along the left side of the character.
+- Light cyan and white oversized beanie, black outline, pale blue vertical panel lines, pale mint band, and dark purr lettering marks on the band.
+- Round light glasses with thick dark rims, pale cyan lenses, bright white highlights, and dark pupils visible behind lenses.
+- Happy open mouth with pink tongue, small white fangs, and pink triangular nose.
+- Light gray and pale blue batik shirt with blue floral / swirl patterning and dark outlines.
+- Cyan skateboard big accessory wraps behind and beside the character, with rounded cyan deck ends, blue underside edge, small bolts, and brown wheels.
+- Solid dark pacific green background in the source image.
+- No pet or companion is visible.
+
+C) Trait reconciliation (metadata tie-break)
+- Metadata names are canonical for traits.
+- Accessories is "None"; do not add glasses as an accessory beyond the Eyes trait and do not invent extra accessories.
+- Big Accessories is "Skateboard Cyan Purr"; the cyan skateboard must appear in all 16 frames.
+- No companion or pet appears in metadata or AVIF, so no companion or pet should be generated.
+- Background trait is source-only; generated raw sheet must use solid #FF00FF for processing, not pacific green.
