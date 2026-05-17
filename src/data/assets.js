@@ -24,6 +24,7 @@ window.Purrdom = window.Purrdom || {};
       "terrain_water_flat_01.png",
       "terrain_water_flat_02.png",
       "terrain_water_flat_03.png",
+      "terrain_water_texture.png",
       "terrain_canal_glowing_01.png",
       "terrain_marble_plaza.png",
       "terrain_stone_platform.png",

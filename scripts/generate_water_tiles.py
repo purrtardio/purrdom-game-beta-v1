@@ -1,77 +1,81 @@
 from pathlib import Path
-from random import Random
 
-from PIL import Image, ImageDraw
-
-
-OUT_DIR = Path("assets/generated/terrain")
-SIZE = (96, 56)
-DIAMOND = [(48, 6), (91, 24), (48, 43), (5, 24)]
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter
 
 
-def mix(a, b, t):
-    return tuple(round(a[i] + (b[i] - a[i]) * t) for i in range(3))
+TERRAIN_DIR = Path("assets/generated/terrain")
+OUTPUT_SIZE = (112, 60)
+OUTPUT_DIAMOND = [(56, 4), (108, 26), (56, 50), (4, 26)]
+TEXTURE_SIZE = (128, 128)
 
 
-def make_tile(index, base, deep, light):
-    rng = Random(1700 + index)
-    mask = Image.new("L", SIZE, 0)
-    ImageDraw.Draw(mask).polygon(DIAMOND, fill=255)
+def source_top_polygon(image):
+    width, height = image.size
+    return [
+        (round(width * 0.5), round(height * 0.08)),
+        (round(width * 0.93), round(height * 0.36)),
+        (round(width * 0.5), round(height * 0.62)),
+        (round(width * 0.07), round(height * 0.36)),
+    ]
 
-    image = Image.new("RGBA", SIZE, (0, 0, 0, 0))
-    pixels = image.load()
-    mask_pixels = mask.load()
 
-    for y in range(SIZE[1]):
-      for x in range(SIZE[0]):
-        if not mask_pixels[x, y]:
-          continue
-        vertical = max(0, min(1, (y - 6) / 38))
-        ripple = ((x * 7 + y * 5 + index * 13) % 23) / 22
-        color = mix(light, deep, vertical * 0.5 + ripple * 0.05)
-        if (x + y + index) % 13 == 0:
-          color = mix(color, (218, 253, 255), 0.12)
-        elif (x * 3 + y + index) % 17 == 0:
-          color = mix(color, base, 0.12)
-        pixels[x, y] = (*color, 255)
+def extract_top_face(source_path, output_path):
+    source = Image.open(source_path).convert("RGBA")
+    mask = Image.new("L", source.size, 0)
+    ImageDraw.Draw(mask).polygon(source_top_polygon(source), fill=255)
 
-    draw = ImageDraw.Draw(image)
-    for _ in range(12):
-      x = rng.randint(14, 72)
-      y = rng.randint(13, 34)
-      if not mask_pixels[x, y]:
-        continue
-      width = rng.choice([8, 10, 12, 14])
-      color = (*mix(light, (244, 255, 255), rng.uniform(0.2, 0.5)), rng.randint(58, 104))
-      draw.line([(x, y), (x + width // 2, y - 2), (x + width, y)], fill=color, width=1)
+    left, top, right, bottom = mask.getbbox()
+    face = Image.new("RGBA", source.size, (0, 0, 0, 0))
+    face.alpha_composite(source)
+    face.putalpha(mask)
+    face = face.crop((left, top, right, bottom))
 
-    for _ in range(8):
-      x = rng.randint(13, 78)
-      y = rng.randint(15, 36)
-      if mask_pixels[x, y]:
-        draw.point((x, y), fill=(224, 255, 255, rng.randint(100, 160)))
-        if rng.random() > 0.45:
-          draw.point((x + 1, y), fill=(139, 237, 255, rng.randint(60, 110)))
+    resample = Image.Resampling.NEAREST
+    face = face.resize((104, 48), resample)
 
-    draw.line([DIAMOND[0], DIAMOND[1]], fill=(201, 255, 255, 150), width=1)
-    draw.line([DIAMOND[0], DIAMOND[3]], fill=(116, 236, 255, 95), width=1)
-    draw.line([DIAMOND[3], DIAMOND[2], DIAMOND[1]], fill=(4, 115, 159, 88), width=1)
+    output = Image.new("RGBA", OUTPUT_SIZE, (0, 0, 0, 0))
+    output.alpha_composite(face, (4, 3))
 
-    shade = Image.new("RGBA", SIZE, (0, 0, 0, 0))
-    shade_draw = ImageDraw.Draw(shade)
-    shade_draw.line([(6, 25), (48, 43), (90, 25)], fill=(0, 82, 124, 18), width=2)
-    return Image.alpha_composite(image, shade)
+    diamond_mask = Image.new("L", OUTPUT_SIZE, 0)
+    ImageDraw.Draw(diamond_mask).polygon(OUTPUT_DIAMOND, fill=255)
+    diamond_mask = diamond_mask.filter(ImageFilter.GaussianBlur(0.25))
+
+    alpha = output.getchannel("A")
+    output.putalpha(Image.composite(alpha, Image.new("L", OUTPUT_SIZE, 0), diamond_mask))
+
+    draw = ImageDraw.Draw(output)
+    draw.line([OUTPUT_DIAMOND[0], OUTPUT_DIAMOND[1]], fill=(235, 255, 255, 150), width=1)
+    draw.line([OUTPUT_DIAMOND[0], OUTPUT_DIAMOND[3]], fill=(149, 242, 255, 110), width=1)
+    draw.line([OUTPUT_DIAMOND[3], OUTPUT_DIAMOND[2], OUTPUT_DIAMOND[1]], fill=(2, 109, 170, 118), width=1)
+    output.save(output_path)
+
+
+def make_water_texture():
+    texture = Image.new("RGBA", TEXTURE_SIZE, (0, 0, 0, 255))
+    crops = []
+    for index in range(1, 4):
+        source = Image.open(TERRAIN_DIR / f"terrain_water_iso_{index:02}.png").convert("RGBA")
+        crops.append(source.crop((40, 22, 90, 44)).resize((80, 36), Image.Resampling.NEAREST))
+
+    for y in range(-18, TEXTURE_SIZE[1] + 36, 32):
+        for x in range(-24, TEXTURE_SIZE[0] + 80, 74):
+            crop = crops[((x // 74) + (y // 32)) % len(crops)]
+            if ((x + y) // 36) % 2:
+                crop = crop.transpose(Image.Transpose.FLIP_LEFT_RIGHT)
+            texture.alpha_composite(crop, (x, y))
+
+    texture = ImageEnhance.Contrast(texture).enhance(0.86)
+    texture = ImageEnhance.Color(texture).enhance(1.08)
+    texture.save(TERRAIN_DIR / "terrain_water_texture.png")
 
 
 def main():
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    palettes = [
-        ((21, 190, 226), (4, 132, 183), (86, 237, 255)),
-        ((17, 178, 220), (3, 116, 172), (108, 246, 255)),
-        ((27, 201, 232), (5, 141, 190), (123, 250, 255)),
-    ]
-    for index, palette in enumerate(palettes, 1):
-        make_tile(index, *palette).save(OUT_DIR / f"terrain_water_flat_{index:02}.png")
+    for index in range(1, 4):
+        extract_top_face(
+            TERRAIN_DIR / f"terrain_water_iso_{index:02}.png",
+            TERRAIN_DIR / f"terrain_water_flat_{index:02}.png",
+        )
+    make_water_texture()
 
 
 if __name__ == "__main__":
