@@ -11,8 +11,16 @@ window.Purrdom = window.Purrdom || {};
       this.width = 1280;
       this.height = 720;
       this.pixelRatio = 1;
+      this.waterMode = this.resolveWaterMode();
       this.resize();
       window.addEventListener("resize", () => this.resize());
+    }
+
+    resolveWaterMode() {
+      const allowedModes = ["old", "flat", "hybrid", "animated"];
+      const params = new URLSearchParams(window.location.search);
+      const requestedMode = params.get("water") || "animated";
+      return allowedModes.includes(requestedMode) ? requestedMode : "animated";
     }
 
     setMapProjection(mapData) {
@@ -58,70 +66,107 @@ window.Purrdom = window.Purrdom || {};
     }
 
     drawTiles(game) {
-      const ctx = this.ctx;
       const camera = game.camera;
+      const time = (game.lastTime || 0) / 1000;
       for (const tile of game.world.tileMap.tilesInDrawOrder()) {
         const point = camera.apply(this.worldToScreen(tile.x, tile.y));
         if (tile.type === "water") {
-          this.drawFlatWaterTile(tile, point);
+          this.drawWaterTile(tile, point, time);
           continue;
         }
 
-        const image = this.assets.get(tile.asset);
-        const anchorY = 24;
-        ctx.drawImage(image, point.x - image.width / 2, point.y - anchorY);
+        this.drawTileImage(tile.asset, point);
       }
     }
 
-    drawFlatWaterTile(tile, point) {
-      const ctx = this.ctx;
+    drawTileImage(assetKey, point) {
+      const image = this.assets.get(assetKey);
+      const anchorY = 24;
+      this.ctx.drawImage(image, point.x - image.width / 2, point.y - anchorY);
+    }
+
+    drawWaterTile(tile, point, time) {
+      if (this.waterMode === "old" || (tile.waterRim && this.waterMode !== "flat")) {
+        this.drawTileImage(tile.asset, point);
+        return;
+      }
+
+      this.drawWaterSurface(tile, point);
+      if (this.waterMode === "animated") {
+        this.drawWaterMotion(tile, point, time);
+      }
+    }
+
+    drawWaterSurface(tile, point) {
+      const variant = String(tile.waterVariant || 1).padStart(2, "0");
+      const image = this.assets.get(`terrain_water_flat_${variant}`);
+      const scale = Math.min(1, (this.tileWidth + 18) / image.width);
+      const width = image.width * scale;
+      const height = image.height * scale;
+      const x = Math.round(point.x - width / 2);
+      const y = Math.round(point.y - 6 * scale);
+      this.ctx.drawImage(image, x, y, width, height);
+    }
+
+    traceWaterSurface(point, scale = 1) {
       const x = Math.round(point.x);
       const y = Math.round(point.y);
-      const halfWidth = this.tileWidth / 2 + 3;
-      const halfHeight = this.tileHeight / 2 + 2;
-      const bottom = this.tileHeight + 3;
-      const palette = ["#10bde7", "#13c7ee", "#0fb4df", "#16c2eb"];
-      const fill = palette[Math.abs(tile.x * 11 + tile.y * 17) % palette.length];
+      const halfWidth = 43 * scale;
+      const rightY = 18 * scale;
+      const bottomY = 37 * scale;
+      const ctx = this.ctx;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + halfWidth, y + rightY);
+      ctx.lineTo(x, y + bottomY);
+      ctx.lineTo(x - halfWidth, y + rightY);
+      ctx.closePath();
+    }
+
+    drawWaterMotion(tile, point, time) {
+      const ctx = this.ctx;
+      const scale = Math.min(1, (this.tileWidth + 18) / 96);
+      const x = Math.round(point.x);
+      const y = Math.round(point.y);
+      const phase = time * 18 + tile.waterPhase;
 
       ctx.save();
-      ctx.beginPath();
-      ctx.moveTo(x, y - 2);
-      ctx.lineTo(x + halfWidth, y + halfHeight);
-      ctx.lineTo(x, y + bottom);
-      ctx.lineTo(x - halfWidth, y + halfHeight);
-      ctx.closePath();
-      ctx.fillStyle = fill;
-      ctx.fill();
-
+      this.traceWaterSurface(point, scale);
       ctx.clip();
-      ctx.globalAlpha = 0.24;
-      ctx.strokeStyle = "#9af8ff";
+
+      ctx.globalAlpha = 0.16 + Math.sin(time * 1.5 + tile.waterPhase) * 0.04;
+      ctx.strokeStyle = "#e2fdff";
       ctx.lineWidth = 1;
-      const waveOffset = Math.abs(tile.x * 7 - tile.y * 5);
       for (let i = 0; i < 2; i += 1) {
-        const waveY = y + 8 + ((waveOffset + i * 9) % Math.max(10, this.tileHeight - 6));
-        const waveX = x - 18 + ((waveOffset * 3 + i * 13) % 18);
+        const waveY = y + 8 * scale + ((phase + i * 13) % Math.max(12, 26 * scale));
+        const waveX = x - 24 * scale + (((tile.x + i) * 11 + time * 8) % (18 * scale));
         ctx.beginPath();
         ctx.moveTo(waveX, waveY);
-        ctx.quadraticCurveTo(waveX + 8, waveY - 4, waveX + 16, waveY);
-        ctx.quadraticCurveTo(waveX + 24, waveY + 4, waveX + 32, waveY);
+        ctx.lineTo(waveX + 8 * scale, waveY - 2 * scale);
+        ctx.lineTo(waveX + 18 * scale, waveY);
+        ctx.lineTo(waveX + 30 * scale, waveY - 2 * scale);
         ctx.stroke();
       }
 
-      ctx.globalAlpha = 0.3;
-      ctx.strokeStyle = "#d6fbff";
-      ctx.beginPath();
-      ctx.moveTo(x, y - 1);
-      ctx.lineTo(x + halfWidth - 1, y + halfHeight);
-      ctx.stroke();
+      ctx.globalAlpha = 0.11;
+      ctx.strokeStyle = "#c9fbff";
+      for (let i = 0; i < 2; i += 1) {
+        const windX = x - 34 * scale + ((time * 24 + tile.x * 15 + tile.y * 7 + i * 22) % (68 * scale));
+        const windY = y + 11 * scale + i * 8 * scale;
+        ctx.beginPath();
+        ctx.moveTo(windX, windY + 5 * scale);
+        ctx.lineTo(windX + 24 * scale, windY - 3 * scale);
+        ctx.stroke();
+      }
 
-      ctx.globalAlpha = 0.18;
-      ctx.strokeStyle = "#047da7";
-      ctx.beginPath();
-      ctx.moveTo(x - halfWidth + 1, y + halfHeight);
-      ctx.lineTo(x, y + bottom - 1);
-      ctx.lineTo(x + halfWidth - 1, y + halfHeight);
-      ctx.stroke();
+      if (tile.waterCoast) {
+        ctx.globalAlpha = 0.22 + Math.sin(time * 2 + tile.waterPhase) * 0.05;
+        ctx.strokeStyle = "#f5ffff";
+        this.traceWaterSurface(point, scale);
+        ctx.stroke();
+      }
+
       ctx.restore();
     }
 
