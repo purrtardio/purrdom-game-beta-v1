@@ -69,21 +69,22 @@ window.Purrdom = window.Purrdom || {};
       const camera = game.camera;
       const time = (game.lastTime || 0) / 1000;
       const tiles = game.world.tileMap.tilesInDrawOrder();
-      const waterTiles = tiles.filter((tile) => tile.type === "water");
-
-      if (this.waterMode === "hybrid" || this.waterMode === "animated") {
-        this.drawWaterField(waterTiles, camera, time);
-      }
 
       for (const tile of tiles) {
         const point = camera.apply(this.worldToScreen(tile.x, tile.y));
+        if (!this.isTileVisible(point)) continue;
         if (tile.type === "water") {
-          this.drawWaterTile(tile, point);
+          this.drawWaterTile(tile, point, time);
           continue;
         }
 
         this.drawTileImage(tile.asset, point);
       }
+    }
+
+    isTileVisible(point) {
+      const margin = 180;
+      return point.x > -margin && point.x < this.width + margin && point.y > -margin && point.y < this.height + margin;
     }
 
     drawTileImage(assetKey, point) {
@@ -92,164 +93,56 @@ window.Purrdom = window.Purrdom || {};
       this.ctx.drawImage(image, point.x - image.width / 2, point.y - anchorY);
     }
 
-    drawWaterTile(tile, point) {
+    drawWaterTile(tile, point, time) {
       if (this.waterMode === "old" || (this.waterMode === "hybrid" && tile.waterRim)) {
         this.drawTileImage(tile.asset, point);
         return;
       }
 
-      if (this.waterMode === "flat") {
-        this.drawWaterSurface(tile, point);
-      }
+      this.drawWaterSurface(tile, point, time);
     }
 
-    drawWaterSurface(tile, point) {
-      const variant = String(tile.waterVariant || 1).padStart(2, "0");
+    drawWaterSurface(tile, point, time) {
+      const variantNumber = this.waterMode === "animated"
+        ? ((Math.floor(time * 2.4 + tile.waterPhase) % 3) + 1)
+        : tile.waterVariant || 1;
+      const variant = String(variantNumber).padStart(2, "0");
       const image = this.assets.get(`terrain_water_flat_${variant}`);
       const scale = Math.min(1, (this.tileWidth + 28) / image.width);
       const width = image.width * scale;
       const height = image.height * scale;
       const x = Math.round(point.x - width / 2);
       const y = Math.round(point.y - 6 * scale);
+      this.drawWaterUnderlay(point);
       this.ctx.drawImage(image, x, y, width, height);
     }
 
-    traceWaterSurface(point) {
+    drawWaterUnderlay(point) {
+      const ctx = this.ctx;
       const x = Math.round(point.x);
       const y = Math.round(point.y);
-      const halfWidth = this.tileWidth / 2 + 7;
-      const halfHeight = this.tileHeight / 2 + 3;
-      const bottom = this.tileHeight + 5;
-      const ctx = this.ctx;
-
-      ctx.beginPath();
-      ctx.moveTo(x, y - 2);
-      ctx.lineTo(x + halfWidth, y + halfHeight);
-      ctx.lineTo(x, y + bottom);
-      ctx.lineTo(x - halfWidth, y + halfHeight);
-      ctx.closePath();
-    }
-
-    drawWaterField(waterTiles, camera, time) {
-      if (!waterTiles.length) return;
-      const ctx = this.ctx;
+      const halfWidth = this.tileWidth / 2 + 14;
+      const sideY = this.tileHeight / 2 + 6;
+      const bottomY = this.tileHeight + 12;
 
       ctx.save();
+      ctx.fillStyle = "#09b9df";
       ctx.beginPath();
-      for (const tile of waterTiles) {
-        const point = camera.apply(this.worldToScreen(tile.x, tile.y));
-        const x = Math.round(point.x);
-        const y = Math.round(point.y);
-        const halfWidth = this.tileWidth / 2 + 7;
-        const halfHeight = this.tileHeight / 2 + 3;
-        const bottom = this.tileHeight + 5;
-        ctx.moveTo(x, y - 2);
-        ctx.lineTo(x + halfWidth, y + halfHeight);
-        ctx.lineTo(x, y + bottom);
-        ctx.lineTo(x - halfWidth, y + halfHeight);
-        ctx.closePath();
-      }
-
-      const gradient = ctx.createLinearGradient(0, 0, 0, this.height);
-      gradient.addColorStop(0, "#1fdaf7");
-      gradient.addColorStop(0.48, "#10badf");
-      gradient.addColorStop(1, "#058ab8");
-      ctx.fillStyle = gradient;
+      ctx.moveTo(x, y - 4);
+      ctx.lineTo(x + halfWidth, y + sideY);
+      ctx.lineTo(x, y + bottomY);
+      ctx.lineTo(x - halfWidth, y + sideY);
+      ctx.closePath();
       ctx.fill();
 
-      ctx.clip();
-      this.drawWaterTexture(time);
-      this.drawWaterCaustics(time);
-
-      if (this.waterMode === "animated") {
-        this.drawWaterWind(time);
-      }
-      this.drawWaterCoastFoam(waterTiles, camera, time);
+      ctx.globalAlpha = 0.28;
+      ctx.strokeStyle = "#087ca8";
+      ctx.beginPath();
+      ctx.moveTo(x - halfWidth, y + sideY);
+      ctx.lineTo(x, y + bottomY);
+      ctx.lineTo(x + halfWidth, y + sideY);
+      ctx.stroke();
       ctx.restore();
-    }
-
-    drawWaterTexture(time) {
-      const texture = this.assets.get("terrain_water_texture");
-      const pattern = this.ctx.createPattern(texture, "repeat");
-      if (!pattern) return;
-
-      const driftX = this.waterMode === "animated" ? (time * 7) % texture.width : 0;
-      const driftY = this.waterMode === "animated" ? (time * 2) % texture.height : 0;
-      this.ctx.save();
-      this.ctx.globalAlpha = 0.24;
-      this.ctx.translate(-driftX, -driftY);
-      this.ctx.fillStyle = pattern;
-      this.ctx.fillRect(driftX - texture.width, driftY - texture.height, this.width + texture.width * 2, this.height + texture.height * 2);
-      this.ctx.restore();
-    }
-
-    drawWaterCaustics(time) {
-      const ctx = this.ctx;
-      ctx.lineWidth = 1;
-      ctx.globalAlpha = this.waterMode === "animated" ? 0.12 : 0.08;
-      ctx.strokeStyle = "#dffcff";
-
-      for (let y = -40; y < this.height + 80; y += 38) {
-        const rowOffset = ((time * 16 + y * 0.7) % 120) - 60;
-        for (let x = -80 + rowOffset; x < this.width + 120; x += 108) {
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.quadraticCurveTo(x + 18, y - 8, x + 36, y);
-          ctx.quadraticCurveTo(x + 54, y + 8, x + 72, y);
-          ctx.stroke();
-        }
-      }
-
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = "#064f87";
-      for (let y = -20; y < this.height + 60; y += 52) {
-        const rowOffset = ((time * 9 + y) % 140) - 70;
-        for (let x = -80 + rowOffset; x < this.width + 120; x += 126) {
-          ctx.beginPath();
-          ctx.moveTo(x, y + 14);
-          ctx.quadraticCurveTo(x + 22, y + 21, x + 44, y + 14);
-          ctx.stroke();
-        }
-      }
-    }
-
-    drawWaterWind(time) {
-      const ctx = this.ctx;
-      ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.12;
-      ctx.strokeStyle = "#f6ffff";
-
-      for (let y = -20; y < this.height + 70; y += 44) {
-        const offset = ((time * 48 + y * 1.3) % 180) - 90;
-        for (let x = -120 + offset; x < this.width + 160; x += 180) {
-          ctx.beginPath();
-          ctx.moveTo(x, y + 18);
-          ctx.lineTo(x + 64, y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    drawWaterCoastFoam(waterTiles, camera, time) {
-      const ctx = this.ctx;
-      ctx.lineWidth = 1;
-      for (const tile of waterTiles) {
-        if (!tile.waterCoast || tile.waterRim) continue;
-        const point = camera.apply(this.worldToScreen(tile.x, tile.y));
-        ctx.globalAlpha = 0.12 + Math.sin(time * 2.4 + tile.waterPhase) * 0.04;
-        ctx.strokeStyle = "#ffffff";
-        this.traceWaterSurface(point);
-        ctx.stroke();
-
-        if ((tile.x + tile.y) % 2 === 0) {
-          ctx.globalAlpha = 0.12;
-          ctx.strokeStyle = "#4be8ff";
-          ctx.beginPath();
-          ctx.moveTo(point.x - this.tileWidth / 4, point.y + this.tileHeight / 2);
-          ctx.quadraticCurveTo(point.x, point.y + this.tileHeight / 2 + 5, point.x + this.tileWidth / 4, point.y + this.tileHeight / 2);
-          ctx.stroke();
-        }
-      }
     }
 
     drawEntities(game) {

@@ -160,7 +160,7 @@ window.Purrdom = window.Purrdom || {};
   P.MapData = {
     width,
     height,
-    projection: { tileWidth: 78, tileHeight: 28 },
+    projection: { tileWidth: 96, tileHeight: 40 },
     spawn: { x: 17.4, y: 18.2 },
     key,
     terrainAt(x, y) {

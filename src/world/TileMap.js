@@ -24,6 +24,9 @@ window.Purrdom = window.Purrdom || {};
         if (a.y !== b.y) return a.y - b.y;
         return a.x - b.x;
       });
+      this.waterTiles = this.tiles.filter((tile) => tile.type === "water");
+      this.coastWaterTiles = this.waterTiles.filter((tile) => tile.waterCoast);
+      this.rimWaterTiles = this.waterTiles.filter((tile) => tile.waterRim);
     }
 
     decorateWaterTiles() {

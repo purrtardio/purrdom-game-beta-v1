@@ -1,6 +1,12 @@
 window.Purrdom = window.Purrdom || {};
 
 (function defineWorldMap(P) {
+  const WORLD_STRUCTURE_SCALE = 1.22;
+
+  function scaledStructureRadius(radius) {
+    return Number((radius * WORLD_STRUCTURE_SCALE).toFixed(2));
+  }
+
   class WorldMap {
     constructor() {
       this.tileMap = new P.TileMap(P.MapData);
@@ -25,13 +31,21 @@ window.Purrdom = window.Purrdom || {};
       return entity;
     }
 
+    addStructure(Type, options) {
+      return this.add(new Type({
+        ...options,
+        scale: options.scale === undefined ? WORLD_STRUCTURE_SCALE : options.scale,
+        collisionRadius: options.collisionRadius === undefined ? options.collisionRadius : scaledStructureRadius(options.collisionRadius)
+      }));
+    }
+
     addCoreKingdom() {
-      this.add(new P.DecorativeEntity({ id: "castle", name: "Purrdom Castle", x: 20, y: 14, assetKey: "building_purrdom_castle", blocksMovement: true, collisionRadius: 1.55, label: "Purrdom Castle" }));
+      this.addStructure(P.DecorativeEntity, { id: "castle", name: "Purrdom Castle", x: 20, y: 14, assetKey: "building_purrdom_castle", blocksMovement: true, collisionRadius: 1.55, label: "Purrdom Castle" });
       this.add(new P.DeFiNode({ id: "purr-points-fountain", name: "Purr Points Fountain", x: 18.2, y: 17.2, assetKey: "defi_purr_points_fountain", tooltip: "Your activity becomes Purr Points", dialogue: "Welcome to Purrdom.", actionType: "overview" }));
       this.add(new P.DecorativeEntity({ id: "hyperals-crystal", name: "HYPERALS Crystal", x: 21.8, y: 17.2, assetKey: "defi_zone_boost_crystal", label: "HYPERALS" }));
-      this.add(new P.DecorativeEntity({ id: "notice-board", name: "Notice Board", x: 17.3, y: 12.1, assetKey: "building_notice_board", label: "Week 4" }));
-      this.add(new P.DecorativeEntity({ id: "power-sock-shrine", name: "Power Sock Shrine", x: 8.2, y: 24.4, assetKey: "equipment_power_sock_shrine", label: "Power Sock" }));
-      this.add(new P.DecorativeEntity({ id: "buyback-forge", name: "Buyback Forge", x: 27.2, y: 24.1, assetKey: "building_equipment_forge", label: "Buyback" }));
+      this.addStructure(P.DecorativeEntity, { id: "notice-board", name: "Notice Board", x: 17.3, y: 12.1, assetKey: "building_notice_board", label: "Week 4" });
+      this.addStructure(P.DecorativeEntity, { id: "power-sock-shrine", name: "Power Sock Shrine", x: 8.2, y: 24.4, assetKey: "equipment_power_sock_shrine", label: "Power Sock" });
+      this.addStructure(P.DecorativeEntity, { id: "buyback-forge", name: "Buyback Forge", x: 27.2, y: 24.1, assetKey: "building_equipment_forge", label: "Buyback" });
     }
 
     addZones() {
@@ -42,9 +56,10 @@ window.Purrdom = window.Purrdom || {};
           name: data.name,
           x: placement.x,
           y: placement.y,
-          radius: placement.radius,
+          radius: scaledStructureRadius(placement.radius),
           assetKey: data.asset,
           nodeAsset: data.nodeAsset,
+          scale: WORLD_STRUCTURE_SCALE,
           zone: data
         }));
       });
@@ -52,7 +67,7 @@ window.Purrdom = window.Purrdom || {};
 
     addSpecials() {
       P.SpecialInteractions.forEach((item) => {
-        this.add(new P.DeFiNode({
+        this.addStructure(P.DeFiNode, {
           id: item.id,
           name: item.name,
           x: item.x,
@@ -63,7 +78,7 @@ window.Purrdom = window.Purrdom || {};
           actionType: item.type,
           blocksMovement: true,
           collisionRadius: 0.9
-        }));
+        });
       });
     }
 
@@ -76,7 +91,7 @@ window.Purrdom = window.Purrdom || {};
       ];
       P.MYSTERY_ZONES.forEach((zone, index) => {
         const placement = placements[index];
-        this.add(new P.DeFiNode({
+        this.addStructure(P.DeFiNode, {
           id: zone.id,
           name: zone.name,
           x: placement.x,
@@ -87,7 +102,7 @@ window.Purrdom = window.Purrdom || {};
           actionType: "sealed",
           blocksMovement: true,
           collisionRadius: 1
-        }));
+        });
       });
     }
 
