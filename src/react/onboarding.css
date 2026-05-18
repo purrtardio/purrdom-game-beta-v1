@@ -5,6 +5,17 @@
   pointer-events: none;
 }
 
+:root {
+  --onboarding-frame: #101826;
+  --onboarding-frame-deep: #0b1320;
+  --onboarding-parchment: #f1dfbc;
+  --onboarding-row: #f8edcf;
+  --onboarding-border: #b8905b;
+  --onboarding-ink: #37271b;
+  --onboarding-teal: #0d615b;
+  --onboarding-texture: url("/assets/onboarding/parchment-texture.svg");
+}
+
 .wallet-dock,
 .onboarding-shell {
   pointer-events: auto;
@@ -108,27 +119,37 @@
   width: min(760px, calc(100vw - 32px));
   max-height: min(640px, calc(100vh - 72px));
   overflow: auto;
-  padding: 44px 42px 34px;
-  border: 2px solid #704c2e;
+  padding: 44px 42px 32px;
+  border: 3px solid #704c2e;
   border-radius: 8px;
   color: #332419;
-  background: #101826;
+  background: var(--onboarding-frame);
   box-shadow:
     0 28px 72px rgba(0, 0, 0, 0.52),
-    inset 0 0 0 2px rgba(255, 205, 128, 0.09);
+    inset 0 0 0 2px rgba(255, 205, 128, 0.12),
+    inset 0 0 0 7px rgba(7, 12, 20, 0.55);
 }
 
 .onboarding-panel-provider {
   width: min(690px, calc(100vw - 32px));
+  padding: 42px 50px 30px;
+}
+
+.onboarding-panel-network,
+.onboarding-panel-sign,
+.onboarding-panel-ready {
+  width: min(790px, calc(100vw - 32px));
 }
 
 .onboarding-panel::before {
-  content: "P";
+  content: "";
   position: absolute;
   left: 18px;
   top: 15px;
-  color: #d6a257;
-  font-size: 15px;
+  width: 23px;
+  height: 23px;
+  background: url("/assets/onboarding/stamp-paw.svg") center / contain no-repeat;
+  filter: sepia(1) saturate(1.7) hue-rotate(345deg) brightness(1.2);
 }
 
 .onboarding-close {
@@ -140,9 +161,10 @@
   height: 34px;
   place-items: center;
   border: 2px solid #8a6138;
-  border-radius: 7px;
+  border-radius: 4px;
   color: #f0c06f;
   background: #172235;
+  box-shadow: inset 0 0 0 2px rgba(4, 9, 17, 0.75);
   cursor: pointer;
 }
 
@@ -153,13 +175,42 @@
 
 .provider-sheet,
 .passport-stage {
+  position: relative;
+  isolation: isolate;
   border: 2px solid #b8905b;
   border-radius: 8px;
-  color: #37271b;
-  background: #f1dfbc;
+  color: var(--onboarding-ink);
+  background-color: var(--onboarding-parchment);
+  background-image: var(--onboarding-texture);
   box-shadow:
     inset 0 0 0 2px rgba(255, 250, 231, 0.46),
     0 10px 0 rgba(24, 15, 9, 0.14);
+}
+
+.provider-sheet::before,
+.provider-sheet::after,
+.passport-stage::before,
+.passport-stage::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: 36px;
+  height: 36px;
+  background: url("/assets/onboarding/corner-flourish.svg") center / contain no-repeat;
+  opacity: 0.7;
+}
+
+.provider-sheet::before,
+.passport-stage::before {
+  left: 14px;
+  top: 14px;
+}
+
+.provider-sheet::after,
+.passport-stage::after {
+  right: 14px;
+  bottom: 14px;
+  transform: rotate(180deg);
 }
 
 .provider-sheet {
@@ -167,18 +218,33 @@
 }
 
 .provider-title-row {
+  position: relative;
   display: flex;
-  gap: 14px;
+  gap: 12px;
   align-items: center;
   justify-content: center;
+  padding-bottom: 34px;
   text-align: center;
+}
+
+.provider-title-row::after,
+.stage-title-row::after {
+  content: "";
+  position: absolute;
+  left: 24%;
+  right: 24%;
+  bottom: 12px;
+  height: 1px;
+  background: #c58b42;
+  box-shadow:
+    -18px 0 0 #d4933b,
+    18px 0 0 #d4933b;
 }
 
 .provider-wallet-icon,
 .stage-icon,
 .wallet-option-mark,
-.wallet-progress-step > span,
-.ready-seal {
+.wallet-progress-step > span {
   display: grid;
   place-items: center;
   border-radius: 7px;
@@ -186,11 +252,17 @@
 }
 
 .provider-wallet-icon {
-  width: 54px;
-  height: 44px;
-  border: 2px solid #6d5539;
-  color: #d5a252;
-  background: #102c2c;
+  width: 88px;
+  height: 62px;
+  border: 0;
+  color: transparent;
+  background: transparent;
+}
+
+.provider-wallet-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .provider-title-row h1,
@@ -218,10 +290,10 @@
 
 .provider-content {
   display: grid;
-  grid-template-columns: 190px minmax(0, 1fr);
-  gap: 24px;
+  grid-template-columns: 196px minmax(0, 1fr);
+  gap: 26px;
   align-items: center;
-  margin-top: 22px;
+  margin-top: 10px;
 }
 
 .passport-card-sample {
@@ -233,8 +305,29 @@
   border: 2px solid #bea170;
   border-radius: 8px;
   color: #6f5538;
-  background: #ead8b6;
+  background-color: #ead8b6;
+  background-image: var(--onboarding-texture);
   box-shadow: inset 0 0 0 2px rgba(255, 250, 231, 0.34);
+}
+
+.passport-card-sample::before,
+.passport-card-sample::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  width: 18px;
+  height: 18px;
+  background: url("/assets/onboarding/corner-flourish.svg") center / contain no-repeat;
+  opacity: 0.45;
+}
+
+.passport-card-sample::before {
+  left: 14px;
+}
+
+.passport-card-sample::after {
+  right: 14px;
+  transform: scaleX(-1);
 }
 
 .passport-card-sample span {
@@ -244,12 +337,12 @@
   text-transform: uppercase;
 }
 
-.passport-card-sample img {
+.passport-card-sample > img {
   width: 94px;
-  height: 94px;
-  margin: 14px 0 8px;
+  height: 112px;
+  margin: 10px 0 6px;
   object-fit: contain;
-  image-rendering: pixelated;
+  image-rendering: auto;
 }
 
 .passport-card-sample strong {
@@ -268,14 +361,19 @@
   right: 16px;
   bottom: 30px;
   display: grid;
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   place-items: center;
-  border: 3px solid #bc5e4d;
-  border-radius: 999px;
-  color: #bc5e4d;
+  border: 0;
   font-style: normal;
   transform: rotate(-7deg);
+}
+
+.passport-card-sample em img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.88;
 }
 
 .wallet-option-list {
@@ -294,7 +392,8 @@
   border-radius: 8px;
   color: #332419;
   text-align: left;
-  background: #f8edcf;
+  background-color: var(--onboarding-row);
+  background-image: var(--onboarding-texture);
   box-shadow: 0 3px 0 rgba(90, 58, 30, 0.18);
   cursor: pointer;
 }
@@ -326,20 +425,14 @@
 .wallet-option-mark {
   width: 36px;
   height: 36px;
-  color: #102136;
-  background: #d9dfd0;
+  color: transparent;
+  background: transparent;
 }
 
-.wallet-option-metamask {
-  background: #f0bb70;
-}
-
-.wallet-option-coinbase {
-  background: #bfd7ef;
-}
-
-.wallet-option-walletconnect {
-  background: #c4ece3;
+.wallet-option-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
 }
 
 .provider-note {
@@ -361,41 +454,58 @@
 .passport-layout {
   display: grid;
   grid-template-columns: 185px minmax(0, 1fr);
-  gap: 18px;
+  gap: 20px;
 }
 
 .passport-aside {
+  position: relative;
   display: grid;
   min-height: 402px;
   align-content: space-between;
-  padding: 16px 12px;
+  overflow: hidden;
+  padding: 24px 16px 18px;
   border: 1px solid rgba(227, 171, 92, 0.28);
   border-radius: 8px;
-  background: #0b1320;
+  background: var(--onboarding-frame-deep);
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.18);
 }
 
 .wallet-progress {
+  position: relative;
   display: grid;
-  gap: 12px;
+  gap: 23px;
+}
+
+.wallet-progress::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  top: 19px;
+  bottom: 19px;
+  border-left: 2px dashed rgba(213, 161, 81, 0.58);
 }
 
 .wallet-progress-step {
+  position: relative;
   display: grid;
-  grid-template-columns: 38px minmax(0, 1fr);
-  gap: 9px;
+  grid-template-columns: 42px minmax(0, 1fr);
+  gap: 10px;
   align-items: center;
-  padding: 7px;
-  border: 1px solid rgba(227, 171, 92, 0.22);
-  border-radius: 8px;
-  background: #101a2a;
+  min-height: 46px;
+  padding: 0;
+  border: 0;
+  background: transparent;
 }
 
 .wallet-progress-step > span {
-  width: 34px;
-  height: 34px;
-  border: 2px solid #334257;
+  position: relative;
+  z-index: 1;
+  width: 38px;
+  height: 38px;
+  border: 2px solid #4a5566;
+  border-radius: 999px;
   color: #8e9aae;
-  background: #0d1320;
+  background: #202a36;
   font-size: 11px;
 }
 
@@ -415,18 +525,19 @@
 }
 
 .wallet-progress-step.is-active {
-  border-color: #d69a50;
-  background: #172235;
+  border-color: transparent;
+  background: transparent;
 }
 
 .wallet-progress-step.is-active > span {
   border-color: #d69a50;
-  color: #f1bd67;
-  background: #2b2119;
+  color: #1d170e;
+  background: #d69a50;
+  box-shadow: 0 0 0 4px rgba(214, 154, 80, 0.18);
 }
 
 .wallet-progress-step.is-complete {
-  border-color: rgba(104, 174, 134, 0.70);
+  border-color: transparent;
 }
 
 .wallet-progress-step.is-complete > span {
@@ -443,10 +554,11 @@
 }
 
 .progress-cat-counter img {
-  width: 82px;
-  height: 82px;
+  width: 104px;
+  height: 126px;
   object-fit: contain;
-  image-rendering: pixelated;
+  image-rendering: auto;
+  filter: drop-shadow(0 7px 8px rgba(0, 0, 0, 0.35));
 }
 
 .progress-cat-counter span {
@@ -460,24 +572,32 @@
 
 .passport-stage {
   min-height: 402px;
-  padding: 26px 30px;
+  padding: 26px 30px 24px;
 }
 
 .stage-title-row {
+  position: relative;
   display: flex;
   gap: 12px;
   align-items: center;
   justify-content: center;
+  padding-bottom: 34px;
   text-align: center;
 }
 
 .stage-icon {
   flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
-  border: 2px solid #97815a;
-  color: #0f5d57;
-  background: #d8e2c8;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  color: transparent;
+  background: transparent;
+}
+
+.stage-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .stage-card-header span {
@@ -499,15 +619,17 @@
 .ready-assignment {
   border: 2px solid #c09d69;
   border-radius: 8px;
-  background: #f8edcf;
+  background-color: var(--onboarding-row);
+  background-image: var(--onboarding-texture);
   box-shadow: 0 3px 0 rgba(90, 58, 30, 0.12);
 }
 
 .network-postcard {
   display: grid;
-  gap: 9px;
-  margin-top: 24px;
-  padding: 12px;
+  gap: 10px;
+  max-width: 460px;
+  margin: 22px auto 0;
+  padding: 14px;
   text-align: center;
 }
 
@@ -523,29 +645,21 @@
 }
 
 .network-bridge {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  align-items: end;
-  min-height: 118px;
-  padding: 12px;
+  display: block;
+  overflow: hidden;
+  min-height: 138px;
+  padding: 0;
   border: 1px solid rgba(96, 66, 34, 0.16);
   border-radius: 8px;
   background: #dfcfad;
 }
 
-.network-bridge span {
+.network-bridge img {
   display: block;
-  min-height: 42px;
-  border: 2px solid #6f5840;
-  border-bottom-width: 9px;
-  border-radius: 7px 7px 3px 3px;
-  background: #9fb9a8;
-}
-
-.network-bridge span:nth-child(2) {
-  min-height: 72px;
-  background: #c9a66f;
+  width: 100%;
+  height: 138px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .purr-primary,
@@ -561,7 +675,7 @@
 .purr-primary {
   border: 2px solid #083d3b;
   color: #fff4d7;
-  background: #0d615b;
+  background: var(--onboarding-teal);
   box-shadow: 0 4px 0 rgba(49, 33, 18, 0.22);
 }
 
@@ -604,13 +718,26 @@
 }
 
 .wallet-receipt {
+  position: relative;
   display: grid;
   gap: 4px;
   margin: 22px auto 0;
-  padding: 11px 13px;
+  padding: 14px 16px 14px 96px;
   max-width: 320px;
+  min-height: 76px;
   color: #fff4d7;
   background: #172235;
+  background-image: none;
+}
+
+.wallet-receipt::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  width: 72px;
+  height: 56px;
+  background: url("/assets/onboarding/wallet-pouch.svg") center / contain no-repeat;
 }
 
 .wallet-receipt span {
@@ -632,7 +759,7 @@
 }
 
 .signature-callout {
-  padding: 13px;
+  padding: 14px;
 }
 
 .signature-callout strong {
@@ -647,7 +774,7 @@
 
 .trust-list {
   display: grid;
-  gap: 7px;
+  gap: 8px;
   padding: 11px;
 }
 
@@ -667,6 +794,21 @@
   background: #5d9a6f;
 }
 
+.signature-desk {
+  display: grid;
+  justify-content: center;
+  margin: 12px auto -2px;
+  max-width: 410px;
+}
+
+.signature-desk img {
+  display: block;
+  width: min(100%, 410px);
+  height: auto;
+  border-radius: 6px;
+  filter: drop-shadow(0 7px 8px rgba(80, 50, 22, 0.22));
+}
+
 .sample-note {
   margin-top: 14px;
   padding-top: 10px;
@@ -676,35 +818,65 @@
 }
 
 .ready-passport {
+  position: relative;
   display: grid;
-  grid-template-columns: 92px minmax(0, 1fr) 54px;
-  gap: 13px;
+  grid-template-columns: 148px minmax(0, 1fr);
+  gap: 16px;
   align-items: center;
   margin-top: 24px;
-  padding: 14px;
+  padding: 14px 44px 14px 14px;
 }
 
 .ready-cat {
   display: grid;
-  width: 92px;
-  height: 92px;
+  width: 148px;
+  height: 170px;
   place-items: center;
-  border: 1px solid rgba(96, 66, 34, 0.20);
-  border-radius: 8px;
-  background: #f3dfb8;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .ready-cat img {
-  width: 76px;
-  height: 76px;
+  width: 132px;
+  height: 162px;
   object-fit: contain;
-  image-rendering: pixelated;
+  image-rendering: auto;
+  filter: drop-shadow(0 8px 8px rgba(90, 58, 30, 0.28));
+}
+
+.ready-card-copy {
+  padding: 14px;
+  border: 2px solid #c5a16b;
+  border-radius: 8px;
+  background-color: #f3e1bd;
+  background-image: var(--onboarding-texture);
+  box-shadow: inset 0 0 0 2px rgba(255, 250, 231, 0.32);
 }
 
 .ready-card-copy span {
   color: #8a6e49;
   font-size: 11px;
   text-transform: uppercase;
+}
+
+.ready-id-row {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(115, 91, 62, 0.34);
+}
+
+.ready-id-row > img {
+  width: 72px;
+  height: 78px;
+  object-fit: cover;
+  border: 2px solid #c5a16b;
+  border-radius: 6px;
+  background: #ead8b6;
 }
 
 .ready-card-copy strong {
@@ -722,11 +894,15 @@
 }
 
 .ready-seal {
-  width: 50px;
-  height: 50px;
-  border: 3px solid #4f7e5f;
-  color: #4f7e5f;
-  transform: rotate(-8deg);
+  position: absolute;
+  right: 14px;
+  bottom: -12px;
+  width: 76px;
+  height: 98px;
+  object-fit: contain;
+  border: 0;
+  transform: rotate(-5deg);
+  filter: drop-shadow(0 6px 6px rgba(65, 48, 25, 0.25));
 }
 
 .ready-assignment {
@@ -782,6 +958,12 @@
     padding: 42px 10px 12px;
   }
 
+  .onboarding-panel-network,
+  .onboarding-panel-sign,
+  .onboarding-panel-ready {
+    width: 100%;
+  }
+
   .provider-sheet {
     padding: 18px 14px;
   }
@@ -790,7 +972,20 @@
   .stage-title-row {
     align-items: center;
     justify-content: flex-start;
+    padding-bottom: 24px;
     text-align: left;
+  }
+
+  .provider-title-row::after,
+  .stage-title-row::after {
+    left: 0;
+    right: 34%;
+    bottom: 8px;
+  }
+
+  .provider-wallet-icon {
+    width: 66px;
+    height: 48px;
   }
 
   .provider-title-row h1,
@@ -809,13 +1004,14 @@
     min-height: 172px;
   }
 
-  .passport-card-sample img {
+  .passport-card-sample > img {
     width: 72px;
-    height: 72px;
+    height: 82px;
   }
 
   .passport-aside {
     min-height: auto;
+    padding: 12px;
   }
 
   .progress-cat-counter {
@@ -824,11 +1020,23 @@
 
   .wallet-progress {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .wallet-progress::before {
+    display: none;
   }
 
   .wallet-progress-step {
     grid-template-columns: 1fr;
-    min-height: 88px;
+    justify-items: center;
+    min-height: 72px;
+    text-align: center;
+  }
+
+  .wallet-progress-step > span {
+    width: 34px;
+    height: 34px;
   }
 
   .wallet-progress-step small {
@@ -840,8 +1048,49 @@
     padding: 18px 14px;
   }
 
+  .signature-grid {
+    gap: 10px;
+  }
+
+  .wallet-receipt {
+    padding-left: 84px;
+  }
+
+  .wallet-receipt::before {
+    width: 62px;
+  }
+
+  .signature-desk {
+    max-width: 100%;
+  }
+
   .ready-cat {
-    width: 76px;
-    height: 76px;
+    width: 100%;
+    height: 128px;
+  }
+
+  .ready-cat img {
+    width: 112px;
+    height: 136px;
+  }
+
+  .ready-passport {
+    padding: 12px 12px 78px;
+  }
+
+  .ready-id-row {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+
+  .ready-id-row > img {
+    width: 62px;
+    height: 68px;
+  }
+
+  .ready-seal {
+    right: 12px;
+    bottom: 8px;
+    width: 62px;
+    height: 82px;
   }
 }

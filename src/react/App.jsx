@@ -12,7 +12,23 @@ import { HYPEREVM_CHAIN_ID } from "./wagmiConfig.js";
 
 const STORAGE_KEY = "purrdom:onboarding:v1";
 const PROFILE_VERSION = 1;
-const PASSPORT_CAT_SRC = "/assets/purrling-walks/hypurr-1653/player_sheet/down-1.png";
+const ONBOARDING_ASSET_BASE = "/assets/onboarding";
+const PASSPORT_CAT_SRC = `${ONBOARDING_ASSET_BASE}/passport-cat.png`;
+const PROGRESS_CAT_SRC = `${ONBOARDING_ASSET_BASE}/progress-cat.png`;
+const WALLET_POUCH_SRC = `${ONBOARDING_ASSET_BASE}/wallet-pouch.svg`;
+const NETWORK_BADGE_SRC = `${ONBOARDING_ASSET_BASE}/network-badge.svg`;
+const SIGN_QUILL_SRC = `${ONBOARDING_ASSET_BASE}/sign-quill.svg`;
+const PASSPORT_BADGE_SRC = `${ONBOARDING_ASSET_BASE}/passport-badge.svg`;
+const STAMP_PAW_SRC = `${ONBOARDING_ASSET_BASE}/stamp-paw.svg`;
+const READY_SEAL_SRC = `${ONBOARDING_ASSET_BASE}/ready-seal.svg`;
+const NETWORK_SCENE_SRC = `${ONBOARDING_ASSET_BASE}/network-scene.png`;
+const SIGN_DESK_SRC = `${ONBOARDING_ASSET_BASE}/sign-desk.png`;
+const WALLET_PROVIDER_ICONS = {
+  rabby: `${ONBOARDING_ASSET_BASE}/wallet-rabby.svg`,
+  metamask: `${ONBOARDING_ASSET_BASE}/wallet-metamask.svg`,
+  coinbase: `${ONBOARDING_ASSET_BASE}/wallet-coinbase.svg`,
+  walletconnect: `${ONBOARDING_ASSET_BASE}/wallet-walletconnect.svg`
+};
 
 function readProfile() {
   try {
@@ -419,7 +435,7 @@ function ProgressAside({ activeStep }) {
     <aside className="passport-aside" aria-label="Passport progress">
       <WalletProgress activeStep={activeStep} />
       <div className="progress-cat-counter" aria-hidden="true">
-        <img alt="" src={PASSPORT_CAT_SRC} />
+        <img alt="" src={PROGRESS_CAT_SRC} />
         <span />
       </div>
     </aside>
@@ -475,16 +491,18 @@ function WalletProgress({ activeStep }) {
 
 function ProviderStage({ isConnecting, onConnect, onGuest }) {
   const walletOptions = [
-    { key: "rabby", label: "Rabby", mark: "R" },
-    { key: "metamask", label: "MetaMask", mark: "M" },
-    { key: "coinbase", label: "Coinbase", mark: "C" },
-    { key: "walletconnect", label: "WalletConnect", mark: "W" }
+    { key: "rabby", label: "Rabby", icon: WALLET_PROVIDER_ICONS.rabby },
+    { key: "metamask", label: "MetaMask", icon: WALLET_PROVIDER_ICONS.metamask },
+    { key: "coinbase", label: "Coinbase", icon: WALLET_PROVIDER_ICONS.coinbase },
+    { key: "walletconnect", label: "WalletConnect", icon: WALLET_PROVIDER_ICONS.walletconnect }
   ];
 
   return (
     <section className="provider-sheet" aria-live="polite">
       <div className="provider-title-row">
-        <span className="provider-wallet-icon">W</span>
+        <span className="provider-wallet-icon" aria-hidden="true">
+          <img alt="" src={WALLET_POUCH_SRC} />
+        </span>
         <div>
           <h1>Choose Wallet</h1>
           <p>Pick a wallet to create your Purrdom Passport.</p>
@@ -503,7 +521,9 @@ function ProviderStage({ isConnecting, onConnect, onGuest }) {
               onClick={onConnect}
               type="button"
             >
-              <span className={`wallet-option-mark wallet-option-${wallet.key}`}>{wallet.mark}</span>
+              <span className={`wallet-option-mark wallet-option-${wallet.key}`} aria-hidden="true">
+                <img alt="" src={wallet.icon} />
+              </span>
               <strong>{wallet.label}</strong>
               <small>{isConnecting ? "Connecting" : ">"}</small>
             </button>
@@ -526,7 +546,9 @@ function NetworkStage({ chain, isSwitching, onSwitch }) {
   return (
     <>
       <div className="stage-title-row">
-        <span className="stage-icon">N</span>
+        <span className="stage-icon" aria-hidden="true">
+          <img alt="" src={NETWORK_BADGE_SRC} />
+        </span>
         <div className="stage-card-header">
           <span>Purrdom runs on HyperEVM</span>
           <strong>Confirm Network</strong>
@@ -537,9 +559,7 @@ function NetworkStage({ chain, isSwitching, onSwitch }) {
         <span>Current network</span>
         <strong>{chain?.name || "Unknown network"}</strong>
         <div className="network-bridge" aria-hidden="true">
-          <span />
-          <span />
-          <span />
+          <img alt="" src={NETWORK_SCENE_SRC} />
         </div>
         <button className="purr-primary" type="button" onClick={onSwitch} disabled={isSwitching}>
           {isSwitching ? "Switching" : "Switch to HyperEVM"}
@@ -555,7 +575,9 @@ function SignStage({ address, connector, isSigning, onSign }) {
   return (
     <>
       <div className="stage-title-row">
-        <span className="stage-icon">S</span>
+        <span className="stage-icon" aria-hidden="true">
+          <img alt="" src={SIGN_QUILL_SRC} />
+        </span>
         <div className="stage-card-header">
           <span>Approve one gasless message</span>
           <strong>Sign Passport</strong>
@@ -575,6 +597,10 @@ function SignStage({ address, connector, isSigning, onSign }) {
         <TrustList items={["No gas", "No token transfer", "Local profile link"]} />
       </div>
 
+      <div className="signature-desk" aria-hidden="true">
+        <img alt="" src={SIGN_DESK_SRC} />
+      </div>
+
       <div className="onboarding-actions">
         <button className="purr-primary" type="button" onClick={onSign} disabled={isSigning}>
           {isSigning ? "Waiting for Signature" : "Sign Passport"}
@@ -589,7 +615,9 @@ function ReadyStage({ address, connector, onClose, onManageWallet, profile }) {
   return (
     <>
       <div className="stage-title-row">
-        <span className="stage-icon">P</span>
+        <span className="stage-icon" aria-hidden="true">
+          <img alt="" src={PASSPORT_BADGE_SRC} />
+        </span>
         <div className="stage-card-header">
           <span>Your wallet is linked to this Purrdom profile</span>
           <strong>Passport Ready</strong>
@@ -598,14 +626,20 @@ function ReadyStage({ address, connector, onClose, onManageWallet, profile }) {
 
       <div className="ready-passport">
         <div className="ready-cat">
-          <img alt="" src={PASSPORT_CAT_SRC} />
+          <img alt="" src={PROGRESS_CAT_SRC} />
         </div>
         <div className="ready-card-copy">
           <span>Purrdom Passport</span>
-          <strong>{shortAddress(address)}</strong>
-          <small>{connector?.name || profile?.connectorName || "Wallet"} / HyperEVM</small>
+          <div className="ready-id-row">
+            <img alt="" src={PASSPORT_CAT_SRC} />
+            <div>
+              <small>Citizen ID</small>
+              <strong>{shortAddress(address)}</strong>
+              <small>{connector?.name || profile?.connectorName || "Wallet"} / HyperEVM</small>
+            </div>
+          </div>
         </div>
-        <span className="ready-seal">OK</span>
+        <img className="ready-seal" alt="" src={READY_SEAL_SRC} />
       </div>
 
       <div className="ready-assignment">Starter Hypurr assigned</div>
@@ -629,7 +663,9 @@ function PassportCard() {
       <img alt="" src={PASSPORT_CAT_SRC} />
       <strong>Starter Hypurr</strong>
       <small>Signed locally</small>
-      <em>P</em>
+      <em aria-hidden="true">
+        <img alt="" src={STAMP_PAW_SRC} />
+      </em>
     </div>
   );
 }
