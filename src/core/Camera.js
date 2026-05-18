@@ -38,8 +38,9 @@ window.Purrdom = window.Purrdom || {};
     }
 
     clamp() {
-      const vw = this.renderer.width;
-      const vh = this.renderer.height;
+      const scale = this.renderer.worldScale ? this.renderer.worldScale() : 1;
+      const vw = this.renderer.width / scale;
+      const vh = this.renderer.height / scale;
       const minX = this.bounds.minX + vw / 2;
       const maxX = this.bounds.maxX - vw / 2;
       const minY = this.bounds.minY + vh / 2;

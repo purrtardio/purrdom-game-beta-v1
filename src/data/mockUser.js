@@ -24,6 +24,20 @@ window.Purrdom = window.Purrdom || {};
       commonPack: 1,
       mysteryPack: 0
     },
+    wallet: {
+      available: false,
+      connected: false,
+      connecting: false,
+      mode: "none",
+      address: null,
+      chainId: null,
+      chainName: "",
+      providerName: "",
+      signed: false,
+      completed: false,
+      guest: false,
+      error: ""
+    },
     claimedZones: {}
   };
 })(window.Purrdom);

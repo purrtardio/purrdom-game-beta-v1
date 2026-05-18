@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Purrdom - Hyperliquid Cat Kingdom Prototype</title>
-    <link rel="icon" href="assets/generated/tokens/token_purr_points.png">
-    <link rel="stylesheet" href="styles/main.css?v=mobile-portrait-1">
+    <link rel="icon" href="/assets/generated/tokens/token_purr_points.png">
   </head>
   <body>
     <main id="game-shell" aria-label="Purrdom playable prototype">
@@ -17,6 +16,7 @@
         <div id="panel-root"></div>
         <div id="mobile-controls" aria-label="Mobile controls"></div>
       </div>
+      <div id="react-root"></div>
       <div id="orientation-gate" aria-live="polite">
         <div class="orientation-message">
           <strong>Rotate to landscape</strong>
@@ -25,63 +25,6 @@
       </div>
       <noscript>Purrdom needs JavaScript enabled.</noscript>
     </main>
-
-    <script src="src/data/assets.js?v=zone2-1"></script>
-    <script src="src/data/tokens.js"></script>
-    <script src="src/data/items.js"></script>
-    <script src="src/data/purrlings.js"></script>
-    <script src="src/data/zones.js"></script>
-    <script src="src/data/mockUser.js"></script>
-    <script src="src/data/leaderboard.js"></script>
-    <script src="src/data/treasury.js"></script>
-
-    <script src="src/core/EventBus.js"></script>
-    <script src="src/core/AssetLoader.js"></script>
-    <script src="src/core/InputManager.js?v=mobile-landscape-5"></script>
-    <script src="src/core/Camera.js?v=mobile-portrait-1"></script>
-    <script src="src/core/CollisionMap.js"></script>
-    <script src="src/core/Renderer.js?v=water-old-1"></script>
-
-    <script src="src/world/MapData.js?v=world-stretch-2"></script>
-    <script src="src/world/Zones.js"></script>
-    <script src="src/world/ZoneMapData.js?v=zone2-1"></script>
-    <script src="src/world/TileMap.js"></script>
-    <script src="src/world/WorldMap.js"></script>
-    <script src="src/world/ZoneMap.js?v=zone2-1"></script>
-
-    <script src="src/entities/Entity.js"></script>
-    <script src="src/entities/Player.js"></script>
-    <script src="src/entities/Purrling.js"></script>
-    <script src="src/entities/NPC.js"></script>
-    <script src="src/entities/ZonePortal.js"></script>
-    <script src="src/entities/DeFiNode.js"></script>
-    <script src="src/entities/BiteShardNode.js"></script>
-    <script src="src/entities/DecorativeEntity.js"></script>
-
-    <script src="src/systems/AnimationSystem.js"></script>
-    <script src="src/systems/DialogueSystem.js"></script>
-    <script src="src/systems/EquipSystem.js"></script>
-    <script src="src/systems/ZoneSystem.js"></script>
-    <script src="src/systems/BreedingPreviewSystem.js"></script>
-    <script src="src/systems/BiteShardMiningSystem.js"></script>
-    <script src="src/systems/LeaderboardSystem.js"></script>
-    <script src="src/systems/TreasurySystem.js"></script>
-    <script src="src/systems/InteractionSystem.js"></script>
-
-    <script src="src/ui/Tooltip.js"></script>
-    <script src="src/ui/HUD.js?v=mobile-portrait-1"></script>
-    <script src="src/ui/PanelManager.js?v=mobile-landscape-5"></script>
-    <script src="src/ui/MobileControls.js?v=mobile-portrait-1"></script>
-    <script src="src/ui/ZonePanel.js?v=mobile-portrait-1"></script>
-    <script src="src/ui/EquipPanel.js"></script>
-    <script src="src/ui/BreedingPanel.js"></script>
-    <script src="src/ui/BiteShardPanel.js"></script>
-    <script src="src/ui/LeaderboardPanel.js?v=mobile-portrait-1"></script>
-    <script src="src/ui/TreasuryPanel.js"></script>
-    <script src="src/ui/AirdropPanel.js"></script>
-    <script src="src/ui/MysteryPackPanel.js"></script>
-
-    <script src="src/core/Game.js?v=world-stretch-1"></script>
-    <script src="src/main.js"></script>
+    <script type="module" src="/src/react/main.jsx"></script>
   </body>
 </html>

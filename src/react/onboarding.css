@@ -1,0 +1,847 @@
+#react-root {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  pointer-events: none;
+}
+
+.wallet-dock,
+.onboarding-shell {
+  pointer-events: auto;
+}
+
+.wallet-dock {
+  position: absolute;
+  left: calc(14px + var(--safe-left));
+  top: calc(14px + var(--safe-top));
+  display: flex;
+  gap: 7px;
+  align-items: stretch;
+  z-index: 2;
+}
+
+.wallet-dock-main,
+.wallet-dock-action,
+.purr-primary,
+.purr-secondary,
+.purr-tertiary,
+.onboarding-close {
+  font: inherit;
+}
+
+.wallet-dock-main,
+.wallet-dock-action {
+  min-height: 42px;
+  border: 1px solid rgba(118, 233, 225, 0.36);
+  border-radius: 8px;
+  color: #f7ffff;
+  background: linear-gradient(180deg, rgba(28, 35, 59, 0.92), rgba(10, 15, 28, 0.88));
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.wallet-dock-main {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  width: min(260px, calc(100vw - 34px));
+  padding: 6px 10px;
+  text-align: left;
+}
+
+.wallet-dock-main span:last-child {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.wallet-dock-main strong,
+.wallet-dock-main small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wallet-dock-main strong {
+  color: #ffffff;
+  font-size: 12px;
+}
+
+.wallet-dock-main small {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.wallet-dock-orb {
+  flex: 0 0 auto;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--gold);
+  box-shadow: 0 0 12px rgba(255, 200, 87, 0.7);
+}
+
+.wallet-dock-connected .wallet-dock-orb {
+  background: var(--teal);
+  box-shadow: 0 0 12px rgba(72, 229, 223, 0.72);
+}
+
+.wallet-dock-action {
+  padding: 6px 10px;
+  font-size: 11px;
+}
+
+.onboarding-shell {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: calc(36px + var(--safe-top)) 18px calc(24px + var(--safe-bottom));
+  background: rgba(8, 10, 16, 0.44);
+  backdrop-filter: blur(2px);
+}
+
+.onboarding-panel {
+  position: relative;
+  width: min(760px, calc(100vw - 32px));
+  max-height: min(640px, calc(100vh - 72px));
+  overflow: auto;
+  padding: 44px 42px 34px;
+  border: 2px solid #704c2e;
+  border-radius: 8px;
+  color: #332419;
+  background: #101826;
+  box-shadow:
+    0 28px 72px rgba(0, 0, 0, 0.52),
+    inset 0 0 0 2px rgba(255, 205, 128, 0.09);
+}
+
+.onboarding-panel-provider {
+  width: min(690px, calc(100vw - 32px));
+}
+
+.onboarding-panel::before {
+  content: "P";
+  position: absolute;
+  left: 18px;
+  top: 15px;
+  color: #d6a257;
+  font-size: 15px;
+}
+
+.onboarding-close {
+  position: absolute;
+  right: 16px;
+  top: 15px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 2px solid #8a6138;
+  border-radius: 7px;
+  color: #f0c06f;
+  background: #172235;
+  cursor: pointer;
+}
+
+.onboarding-close.is-locked {
+  opacity: 0.82;
+  cursor: default;
+}
+
+.provider-sheet,
+.passport-stage {
+  border: 2px solid #b8905b;
+  border-radius: 8px;
+  color: #37271b;
+  background: #f1dfbc;
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 250, 231, 0.46),
+    0 10px 0 rgba(24, 15, 9, 0.14);
+}
+
+.provider-sheet {
+  padding: 22px 30px 24px;
+}
+
+.provider-title-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.provider-wallet-icon,
+.stage-icon,
+.wallet-option-mark,
+.wallet-progress-step > span,
+.ready-seal {
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  font-weight: 800;
+}
+
+.provider-wallet-icon {
+  width: 54px;
+  height: 44px;
+  border: 2px solid #6d5539;
+  color: #d5a252;
+  background: #102c2c;
+}
+
+.provider-title-row h1,
+.stage-card-header strong {
+  margin: 0;
+  color: #37271b;
+  font-size: 34px;
+  line-height: 1.03;
+}
+
+.provider-title-row p,
+.stage-card-header span,
+.sample-note,
+.signature-callout p,
+.ready-card-copy small,
+.onboarding-note {
+  color: #735b3e;
+  line-height: 1.45;
+}
+
+.provider-title-row p {
+  margin: 9px 0 0;
+  font-size: 14px;
+}
+
+.provider-content {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  margin-top: 22px;
+}
+
+.passport-card-sample {
+  position: relative;
+  display: grid;
+  min-height: 220px;
+  justify-items: center;
+  padding: 16px 12px 14px;
+  border: 2px solid #bea170;
+  border-radius: 8px;
+  color: #6f5538;
+  background: #ead8b6;
+  box-shadow: inset 0 0 0 2px rgba(255, 250, 231, 0.34);
+}
+
+.passport-card-sample span {
+  color: #927244;
+  font-size: 12px;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.passport-card-sample img {
+  width: 94px;
+  height: 94px;
+  margin: 14px 0 8px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.passport-card-sample strong {
+  color: #37271b;
+  font-size: 14px;
+}
+
+.passport-card-sample small {
+  margin-top: 16px;
+  color: #9a7b54;
+  font-size: 11px;
+}
+
+.passport-card-sample em {
+  position: absolute;
+  right: 16px;
+  bottom: 30px;
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 3px solid #bc5e4d;
+  border-radius: 999px;
+  color: #bc5e4d;
+  font-style: normal;
+  transform: rotate(-7deg);
+}
+
+.wallet-option-list {
+  display: grid;
+  gap: 10px;
+}
+
+.wallet-option {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 22px;
+  gap: 12px;
+  align-items: center;
+  min-height: 56px;
+  padding: 7px 12px;
+  border: 2px solid #b99765;
+  border-radius: 8px;
+  color: #332419;
+  text-align: left;
+  background: #f8edcf;
+  box-shadow: 0 3px 0 rgba(90, 58, 30, 0.18);
+  cursor: pointer;
+}
+
+.wallet-option:hover,
+.wallet-option:focus-visible {
+  border-color: #0f6762;
+  outline: none;
+}
+
+.wallet-option:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
+.wallet-option strong {
+  overflow: hidden;
+  font-size: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wallet-option small {
+  justify-self: end;
+  color: #4f3828;
+  font-size: 18px;
+}
+
+.wallet-option-mark {
+  width: 36px;
+  height: 36px;
+  color: #102136;
+  background: #d9dfd0;
+}
+
+.wallet-option-metamask {
+  background: #f0bb70;
+}
+
+.wallet-option-coinbase {
+  background: #bfd7ef;
+}
+
+.wallet-option-walletconnect {
+  background: #c4ece3;
+}
+
+.provider-note {
+  margin-top: 22px;
+  color: #8b6e49;
+  font-size: 12px;
+  text-align: center;
+}
+
+.provider-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.passport-layout {
+  display: grid;
+  grid-template-columns: 185px minmax(0, 1fr);
+  gap: 18px;
+}
+
+.passport-aside {
+  display: grid;
+  min-height: 402px;
+  align-content: space-between;
+  padding: 16px 12px;
+  border: 1px solid rgba(227, 171, 92, 0.28);
+  border-radius: 8px;
+  background: #0b1320;
+}
+
+.wallet-progress {
+  display: grid;
+  gap: 12px;
+}
+
+.wallet-progress-step {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  padding: 7px;
+  border: 1px solid rgba(227, 171, 92, 0.22);
+  border-radius: 8px;
+  background: #101a2a;
+}
+
+.wallet-progress-step > span {
+  width: 34px;
+  height: 34px;
+  border: 2px solid #334257;
+  color: #8e9aae;
+  background: #0d1320;
+  font-size: 11px;
+}
+
+.wallet-progress-step strong {
+  display: block;
+  color: #f8f0dc;
+  font-size: 12px;
+  line-height: 1.15;
+}
+
+.wallet-progress-step small {
+  display: block;
+  margin-top: 3px;
+  color: #a8b2c0;
+  font-size: 10px;
+  line-height: 1.3;
+}
+
+.wallet-progress-step.is-active {
+  border-color: #d69a50;
+  background: #172235;
+}
+
+.wallet-progress-step.is-active > span {
+  border-color: #d69a50;
+  color: #f1bd67;
+  background: #2b2119;
+}
+
+.wallet-progress-step.is-complete {
+  border-color: rgba(104, 174, 134, 0.70);
+}
+
+.wallet-progress-step.is-complete > span {
+  border-color: #67ad85;
+  color: #98e0b7;
+  background: #14342a;
+}
+
+.progress-cat-counter {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 104px;
+}
+
+.progress-cat-counter img {
+  width: 82px;
+  height: 82px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.progress-cat-counter span {
+  position: absolute;
+  bottom: 4px;
+  width: 96px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.20);
+}
+
+.passport-stage {
+  min-height: 402px;
+  padding: 26px 30px;
+}
+
+.stage-title-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.stage-icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border: 2px solid #97815a;
+  color: #0f5d57;
+  background: #d8e2c8;
+}
+
+.stage-card-header span {
+  display: block;
+  font-size: 12px;
+}
+
+.stage-card-header strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 30px;
+}
+
+.network-postcard,
+.wallet-receipt,
+.signature-callout,
+.trust-list,
+.ready-passport,
+.ready-assignment {
+  border: 2px solid #c09d69;
+  border-radius: 8px;
+  background: #f8edcf;
+  box-shadow: 0 3px 0 rgba(90, 58, 30, 0.12);
+}
+
+.network-postcard {
+  display: grid;
+  gap: 9px;
+  margin-top: 24px;
+  padding: 12px;
+  text-align: center;
+}
+
+.network-postcard span {
+  color: #8a6e49;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.network-postcard strong {
+  color: #332419;
+  font-size: 20px;
+}
+
+.network-bridge {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  align-items: end;
+  min-height: 118px;
+  padding: 12px;
+  border: 1px solid rgba(96, 66, 34, 0.16);
+  border-radius: 8px;
+  background: #dfcfad;
+}
+
+.network-bridge span {
+  display: block;
+  min-height: 42px;
+  border: 2px solid #6f5840;
+  border-bottom-width: 9px;
+  border-radius: 7px 7px 3px 3px;
+  background: #9fb9a8;
+}
+
+.network-bridge span:nth-child(2) {
+  min-height: 72px;
+  background: #c9a66f;
+}
+
+.purr-primary,
+.purr-secondary,
+.purr-tertiary,
+.purr-link {
+  min-height: 38px;
+  border-radius: 7px;
+  padding: 8px 13px;
+  cursor: pointer;
+}
+
+.purr-primary {
+  border: 2px solid #083d3b;
+  color: #fff4d7;
+  background: #0d615b;
+  box-shadow: 0 4px 0 rgba(49, 33, 18, 0.22);
+}
+
+.purr-secondary {
+  border: 2px solid #b99765;
+  color: #332419;
+  background: #f8edcf;
+}
+
+.purr-tertiary {
+  border: 1px solid rgba(96, 66, 34, 0.18);
+  color: #5d4b3a;
+  background: transparent;
+}
+
+.purr-link {
+  min-height: 30px;
+  border: 0;
+  color: #0e5e5b;
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.purr-primary:disabled,
+.purr-secondary:disabled,
+.purr-tertiary:disabled,
+.purr-link:disabled {
+  opacity: 0.58;
+  cursor: not-allowed;
+}
+
+.onboarding-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.wallet-receipt {
+  display: grid;
+  gap: 4px;
+  margin: 22px auto 0;
+  padding: 11px 13px;
+  max-width: 320px;
+  color: #fff4d7;
+  background: #172235;
+}
+
+.wallet-receipt span {
+  color: #d1aa6a;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.wallet-receipt strong {
+  color: #ffffff;
+  font-size: 16px;
+}
+
+.signature-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 180px;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.signature-callout {
+  padding: 13px;
+}
+
+.signature-callout strong {
+  display: block;
+  color: #332419;
+}
+
+.signature-callout p {
+  margin: 8px 0 0;
+  font-size: 12px;
+}
+
+.trust-list {
+  display: grid;
+  gap: 7px;
+  padding: 11px;
+}
+
+.trust-list span {
+  display: inline-flex;
+  gap: 7px;
+  align-items: center;
+  color: #315d43;
+  font-size: 11px;
+}
+
+.trust-list span::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: #5d9a6f;
+}
+
+.sample-note {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px dashed rgba(115, 91, 62, 0.34);
+  font-size: 11px;
+  text-align: center;
+}
+
+.ready-passport {
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 54px;
+  gap: 13px;
+  align-items: center;
+  margin-top: 24px;
+  padding: 14px;
+}
+
+.ready-cat {
+  display: grid;
+  width: 92px;
+  height: 92px;
+  place-items: center;
+  border: 1px solid rgba(96, 66, 34, 0.20);
+  border-radius: 8px;
+  background: #f3dfb8;
+}
+
+.ready-cat img {
+  width: 76px;
+  height: 76px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
+.ready-card-copy span {
+  color: #8a6e49;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.ready-card-copy strong {
+  display: block;
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  color: #332419;
+  font-size: 17px;
+}
+
+.ready-card-copy small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.ready-seal {
+  width: 50px;
+  height: 50px;
+  border: 3px solid #4f7e5f;
+  color: #4f7e5f;
+  transform: rotate(-8deg);
+}
+
+.ready-assignment {
+  margin-top: 12px;
+  padding: 10px;
+  color: #7a5e39;
+  font-size: 12px;
+  text-align: center;
+}
+
+.onboarding-actions-ready {
+  flex-direction: column;
+}
+
+.onboarding-note {
+  margin: 12px 0 0;
+  color: #84653a;
+  font-size: 11px;
+  text-align: center;
+}
+
+.onboarding-error {
+  margin: 12px 0 0;
+  padding: 10px;
+  border: 1px solid rgba(188, 81, 65, 0.46);
+  border-radius: 7px;
+  color: #ffe6df;
+  background: rgba(128, 36, 36, 0.34);
+}
+
+@media (max-width: 780px) {
+  .wallet-dock {
+    left: auto;
+    right: calc(10px + var(--safe-right));
+    top: calc(108px + var(--safe-top));
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
+  .wallet-dock-main {
+    width: min(210px, calc(100vw - 20px));
+  }
+
+  .onboarding-shell {
+    align-items: center;
+    padding: calc(10px + var(--safe-top)) calc(10px + var(--safe-right)) calc(10px + var(--safe-bottom)) calc(10px + var(--safe-left));
+  }
+
+  .onboarding-panel,
+  .onboarding-panel-provider {
+    width: 100%;
+    max-height: calc(100vh - 24px - var(--safe-top) - var(--safe-bottom));
+    padding: 42px 10px 12px;
+  }
+
+  .provider-sheet {
+    padding: 18px 14px;
+  }
+
+  .provider-title-row,
+  .stage-title-row {
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+  }
+
+  .provider-title-row h1,
+  .stage-card-header strong {
+    font-size: 26px;
+  }
+
+  .provider-content,
+  .passport-layout,
+  .signature-grid,
+  .ready-passport {
+    grid-template-columns: 1fr;
+  }
+
+  .passport-card-sample {
+    min-height: 172px;
+  }
+
+  .passport-card-sample img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .passport-aside {
+    min-height: auto;
+  }
+
+  .progress-cat-counter {
+    display: none;
+  }
+
+  .wallet-progress {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .wallet-progress-step {
+    grid-template-columns: 1fr;
+    min-height: 88px;
+  }
+
+  .wallet-progress-step small {
+    display: none;
+  }
+
+  .passport-stage {
+    min-height: auto;
+    padding: 18px 14px;
+  }
+
+  .ready-cat {
+    width: 76px;
+    height: 76px;
+  }
+}

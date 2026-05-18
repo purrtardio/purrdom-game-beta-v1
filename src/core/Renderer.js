@@ -42,6 +42,24 @@ window.Purrdom = window.Purrdom || {};
       this.ctx.imageSmoothingEnabled = false;
     }
 
+    isMobilePortrait() {
+      return this.width <= 780 && this.height > this.width;
+    }
+
+    isMobileLandscape() {
+      return (this.width <= 900 && this.height <= 520) || (this.height <= 520 && this.width > this.height);
+    }
+
+    isMobileViewport() {
+      return this.isMobilePortrait() || this.isMobileLandscape();
+    }
+
+    worldScale() {
+      if (this.isMobilePortrait()) return 0.72;
+      if (this.isMobileLandscape()) return 0.82;
+      return 1;
+    }
+
     worldToScreen(x, y) {
       return {
         x: (x - y) * (this.tileWidth / 2),
@@ -61,9 +79,27 @@ window.Purrdom = window.Purrdom || {};
 
     render(game) {
       this.clear();
-      this.drawTiles(game);
-      this.drawEntities(game);
-      this.drawEffects(game);
+      this.withWorldScale(() => {
+        this.drawTiles(game);
+        this.drawEntities(game);
+        this.drawEffects(game);
+      });
+      this.drawMiniMap(game);
+    }
+
+    withWorldScale(fn) {
+      const scale = this.worldScale();
+      if (scale === 1) {
+        fn();
+        return;
+      }
+
+      this.ctx.save();
+      this.ctx.translate(this.width / 2, this.height / 2);
+      this.ctx.scale(scale, scale);
+      this.ctx.translate(-this.width / 2, -this.height / 2);
+      fn();
+      this.ctx.restore();
     }
 
     drawTiles(game) {
@@ -84,7 +120,7 @@ window.Purrdom = window.Purrdom || {};
     }
 
     isTileVisible(point) {
-      const margin = 180;
+      const margin = 180 / this.worldScale();
       return point.x > -margin && point.x < this.width + margin && point.y > -margin && point.y < this.height + margin;
     }
 
@@ -226,6 +262,87 @@ window.Purrdom = window.Purrdom || {};
         }
         ctx.restore();
       }
+    }
+
+    drawMiniMap(game) {
+      if (!this.isMobileViewport() || !game.world || !game.world.tileMap) return;
+
+      const ctx = this.ctx;
+      const size = this.isMobilePortrait() ? 92 : 108;
+      const inset = 12;
+      const x = this.width - size - inset;
+      const y = this.isMobilePortrait() ? 138 : inset;
+      const padding = 8;
+      const map = game.world.tileMap;
+      const projected = this.projectMiniMap(map, x + padding, y + padding, size - padding * 2);
+
+      ctx.save();
+      ctx.globalAlpha = 0.92;
+      ctx.fillStyle = "rgba(10, 15, 28, 0.76)";
+      ctx.fillRect(x, y, size, size);
+      ctx.globalAlpha = 1;
+      ctx.strokeStyle = "rgba(124, 244, 235, 0.42)";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(x + 1, y + 1, size - 2, size - 2);
+
+      for (const tile of map.tiles) {
+        const point = projected.point(tile.x + 0.5, tile.y + 0.5);
+        ctx.fillStyle = this.miniMapTileColor(tile.type);
+        ctx.fillRect(point.x, point.y, projected.dot, projected.dot);
+      }
+
+      for (const entity of game.world.entities) {
+        if (!entity || (!entity.actionType && !entity.label)) continue;
+        const point = projected.point(entity.x, entity.y);
+        ctx.fillStyle = "rgba(255, 121, 207, 0.88)";
+        ctx.fillRect(point.x - 1, point.y - 1, projected.dot + 2, projected.dot + 2);
+      }
+
+      const player = projected.point(game.player.x, game.player.y);
+      ctx.fillStyle = "#ffc857";
+      ctx.strokeStyle = "rgba(10, 15, 28, 0.95)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(player.x + projected.dot / 2, player.y + projected.dot / 2, 4, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    projectMiniMap(map, x, y, size) {
+      const project = (tx, ty) => ({ x: tx - ty, y: (tx + ty) * 0.5 });
+      const corners = [
+        project(0, 0),
+        project(map.width, 0),
+        project(0, map.height),
+        project(map.width, map.height)
+      ];
+      const minX = Math.min(...corners.map((point) => point.x));
+      const maxX = Math.max(...corners.map((point) => point.x));
+      const minY = Math.min(...corners.map((point) => point.y));
+      const maxY = Math.max(...corners.map((point) => point.y));
+      const scale = Math.min(size / (maxX - minX), size / (maxY - minY));
+      const offsetX = x + (size - (maxX - minX) * scale) / 2;
+      const offsetY = y + (size - (maxY - minY) * scale) / 2;
+      return {
+        dot: Math.max(2, Math.floor(scale * 1.15)),
+        point(tx, ty) {
+          const point = project(tx, ty);
+          return {
+            x: Math.round(offsetX + (point.x - minX) * scale),
+            y: Math.round(offsetY + (point.y - minY) * scale)
+          };
+        }
+      };
+    }
+
+    miniMapTileColor(type) {
+      if (type === "water" || type === "outside") return "rgba(24, 99, 132, 0.82)";
+      if (type === "canal") return "rgba(72, 229, 223, 0.72)";
+      if (type === "path" || type === "entry-path") return "rgba(231, 208, 143, 0.86)";
+      if (type === "platform" || type === "plaza" || type === "arena-center") return "rgba(176, 164, 222, 0.86)";
+      if (type === "bridge") return "rgba(255, 200, 87, 0.82)";
+      return "rgba(102, 185, 110, 0.86)";
     }
   }
 
