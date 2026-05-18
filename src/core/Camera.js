@@ -18,11 +18,23 @@ window.Purrdom = window.Purrdom || {};
     follow(worldX, worldY, dt) {
       const point = this.renderer.worldToScreen(worldX, worldY);
       this.targetX = point.x;
-      this.targetY = point.y + 14;
+      this.targetY = point.y + this.followOffsetY();
       const follow = Math.min(1, dt * 6);
       this.x += (this.targetX - this.x) * follow;
       this.y += (this.targetY - this.y) * follow;
       this.clamp();
+    }
+
+    followOffsetY() {
+      const w = this.renderer.width;
+      const h = this.renderer.height;
+      if (w <= 780 && h > w) {
+        return Math.min(132, Math.max(72, h * 0.14));
+      }
+      if (w <= 900 && h <= 520) {
+        return 42;
+      }
+      return 14;
     }
 
     clamp() {

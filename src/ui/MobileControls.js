@@ -20,15 +20,15 @@ window.Purrdom = window.Purrdom || {};
         </div>
         <div class="mobile-action-dock">
           <div class="mobile-more-menu" data-mobile-more-menu>
+            <button class="mobile-action-button" type="button" data-mobile-key="M">Map</button>
+            <button class="mobile-action-button" type="button" data-mobile-key="I">Gear</button>
             <button class="mobile-action-button" type="button" data-mobile-key="L">Ranks</button>
             <button class="mobile-action-button" type="button" data-mobile-key="T">Treasury</button>
             <button class="mobile-action-button" type="button" data-mobile-key="B">Mining</button>
             <button class="mobile-action-button" type="button" data-mobile-key="R">Reset</button>
           </div>
           <button class="mobile-action-button primary" type="button" data-mobile-key="E">Interact</button>
-          <button class="mobile-action-button" type="button" data-mobile-key="M">Map</button>
-          <button class="mobile-action-button" type="button" data-mobile-key="I">Gear</button>
-          <button class="mobile-action-button" type="button" data-mobile-more aria-expanded="false">More</button>
+          <button class="mobile-action-button" type="button" data-mobile-more aria-expanded="false">Menu</button>
         </div>
       `;
       this.joystick = this.root.querySelector("[data-mobile-joystick]");

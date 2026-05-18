@@ -5,12 +5,12 @@ window.Purrdom = window.Purrdom || {};
     static render(game) {
       const rows = game.leaderboardSystem.rows().map((row) => `
         <tr class="${row.isYou ? "you-row" : ""}">
-          <td>${row.rank}</td>
-          <td>${row.username}</td>
-          <td>${row.purrPoints.toLocaleString()}</td>
-          <td>${row.purrlings}</td>
-          <td>${row.equippedItem}</td>
-          <td>${row.badge}</td>
+          <td data-label="Rank">${row.rank}</td>
+          <td data-label="User">${row.username}</td>
+          <td data-label="Purr Points">${row.purrPoints.toLocaleString()}</td>
+          <td data-label="Purrlings">${row.purrlings}</td>
+          <td data-label="Item">${row.equippedItem}</td>
+          <td data-label="Badge">${row.badge}</td>
         </tr>
       `).join("");
       return `

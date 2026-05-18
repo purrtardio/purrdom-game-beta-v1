@@ -44,10 +44,10 @@ window.Purrdom = window.Purrdom || {};
     static renderOverview(game) {
       const rows = game.zoneSystem.overviewStats().map((zone) => `
         <tr>
-          <td>${zone.name}</td>
-          <td>${zone.activity}</td>
-          <td>${P.TOKENS[zone.rewardToken].symbol}</td>
-          <td>${zone.boostedApy.toFixed(2)}%</td>
+          <td data-label="Zone">${zone.name}</td>
+          <td data-label="Activity">${zone.activity}</td>
+          <td data-label="Reward">${P.TOKENS[zone.rewardToken].symbol}</td>
+          <td data-label="Preview">${zone.boostedApy.toFixed(2)}%</td>
         </tr>
       `).join("");
       return `

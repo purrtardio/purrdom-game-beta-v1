@@ -451,11 +451,12 @@ window.Purrdom = window.Purrdom || {};
   };
 
   const hypurrPlayerPath = "assets/purrling-walks/hypurr-1688";
+  // Hypurr 1688's exported side-facing rows are visually reversed.
   const playerAssets = [
     ["player_idle_down", "down-1.png"],
     ["player_idle_up", "up-1.png"],
-    ["player_idle_left", "left-1.png"],
-    ["player_idle_right", "right-1.png"],
+    ["player_idle_left", "right-1.png"],
+    ["player_idle_right", "left-1.png"],
     ["player_walk_down_01", "down-1.png"],
     ["player_walk_down_02", "down-2.png"],
     ["player_walk_down_03", "down-3.png"],
@@ -464,14 +465,14 @@ window.Purrdom = window.Purrdom || {};
     ["player_walk_up_02", "up-2.png"],
     ["player_walk_up_03", "up-3.png"],
     ["player_walk_up_04", "up-4.png"],
-    ["player_walk_left_01", "left-1.png"],
-    ["player_walk_left_02", "left-2.png"],
-    ["player_walk_left_03", "left-3.png"],
-    ["player_walk_left_04", "left-4.png"],
-    ["player_walk_right_01", "right-1.png"],
-    ["player_walk_right_02", "right-2.png"],
-    ["player_walk_right_03", "right-3.png"],
-    ["player_walk_right_04", "right-4.png"]
+    ["player_walk_left_01", "right-1.png"],
+    ["player_walk_left_02", "right-2.png"],
+    ["player_walk_left_03", "right-3.png"],
+    ["player_walk_left_04", "right-4.png"],
+    ["player_walk_right_01", "left-1.png"],
+    ["player_walk_right_02", "left-2.png"],
+    ["player_walk_right_03", "left-3.png"],
+    ["player_walk_right_04", "left-4.png"]
   ].map(([key, file]) => ({
     key,
     category: "player",

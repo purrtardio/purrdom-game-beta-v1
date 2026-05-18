@@ -18,9 +18,10 @@ window.Purrdom = window.Purrdom || {};
 
     resolveWaterMode() {
       const allowedModes = ["old", "flat", "hybrid", "animated"];
+      const defaultMode = "old";
       const params = new URLSearchParams(window.location.search);
-      const requestedMode = params.get("water") || "animated";
-      return allowedModes.includes(requestedMode) ? requestedMode : "animated";
+      const requestedMode = params.get("water") || defaultMode;
+      return allowedModes.includes(requestedMode) ? requestedMode : defaultMode;
     }
 
     setMapProjection(mapData) {
