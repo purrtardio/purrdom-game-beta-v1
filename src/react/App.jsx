@@ -109,7 +109,7 @@ function bridgeWalletToGame(game, wallet) {
 export function App() {
   const [game, setGame] = useState(null);
   const [profile, setProfile] = useState(() => readProfile());
-  const [onboardingOpen, setOnboardingOpen] = useState(() => !readProfile()?.completed);
+  const [onboardingOpen, setOnboardingOpen] = useState(true);
   const [walletError, setWalletError] = useState("");
 
   const { address, chain, connector, isConnected } = useAccount();
