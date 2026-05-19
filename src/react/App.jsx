@@ -1,4 +1,10 @@
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
+import {
+  coinbaseWallet,
+  metaMaskWallet,
+  rabbyWallet,
+  walletConnectWallet
+} from "@rainbow-me/rainbowkit/wallets";
 import { useEffect, useMemo, useState } from "react";
 import {
   useAccount,
@@ -8,7 +14,7 @@ import {
   useSwitchChain
 } from "wagmi";
 import { bootstrapLegacyGame } from "../legacy/bootstrapLegacyGame.js";
-import { HYPEREVM_CHAIN_ID } from "./wagmiConfig.js";
+import { HYPEREVM_CHAIN_ID, walletConnectProjectId } from "./wagmiConfig.js";
 
 const STORAGE_KEY = "purrdom:onboarding:v1";
 const PROFILE_VERSION = 1;
@@ -23,12 +29,33 @@ const STAMP_PAW_SRC = `${ONBOARDING_ASSET_BASE}/stamp-paw.svg`;
 const READY_SEAL_SRC = `${ONBOARDING_ASSET_BASE}/ready-seal.svg`;
 const NETWORK_SCENE_SRC = `${ONBOARDING_ASSET_BASE}/network-scene.png`;
 const SIGN_DESK_SRC = `${ONBOARDING_ASSET_BASE}/sign-desk.png`;
-const WALLET_PROVIDER_ICONS = {
-  rabby: `${ONBOARDING_ASSET_BASE}/wallet-rabby.svg`,
-  metamask: `${ONBOARDING_ASSET_BASE}/wallet-metamask.svg`,
-  coinbase: `${ONBOARDING_ASSET_BASE}/wallet-coinbase.svg`,
-  walletconnect: `${ONBOARDING_ASSET_BASE}/wallet-walletconnect.svg`
-};
+const FALLBACK_WALLET_CONNECT_PROJECT_ID = "purrdom-dev-no-walletconnect";
+
+async function getWalletIcon(wallet) {
+  return typeof wallet.iconUrl === "function" ? wallet.iconUrl() : wallet.iconUrl;
+}
+
+async function getRainbowKitWalletIcons() {
+  const projectId = walletConnectProjectId || FALLBACK_WALLET_CONNECT_PROJECT_ID;
+  const wallets = {
+    rabby: rabbyWallet(),
+    metamask: metaMaskWallet({ projectId }),
+    coinbase: coinbaseWallet({ appName: "Purrdom" }),
+    walletconnect: walletConnectWallet({ projectId })
+  };
+
+  const entries = await Promise.all(
+    Object.entries(wallets).map(async ([key, wallet]) => [
+      key,
+      {
+        iconBackground: wallet.iconBackground,
+        iconUrl: await getWalletIcon(wallet)
+      }
+    ])
+  );
+
+  return Object.fromEntries(entries);
+}
 
 function readProfile() {
   try {
@@ -490,12 +517,30 @@ function WalletProgress({ activeStep }) {
 }
 
 function ProviderStage({ isConnecting, onConnect, onGuest }) {
-  const walletOptions = [
-    { key: "rabby", label: "Rabby", icon: WALLET_PROVIDER_ICONS.rabby },
-    { key: "metamask", label: "MetaMask", icon: WALLET_PROVIDER_ICONS.metamask },
-    { key: "coinbase", label: "Coinbase", icon: WALLET_PROVIDER_ICONS.coinbase },
-    { key: "walletconnect", label: "WalletConnect", icon: WALLET_PROVIDER_ICONS.walletconnect }
-  ];
+  const [walletIcons, setWalletIcons] = useState({});
+
+  useEffect(() => {
+    let mounted = true;
+
+    getRainbowKitWalletIcons()
+      .then((icons) => {
+        if (mounted) setWalletIcons(icons);
+      })
+      .catch(() => {
+        if (mounted) setWalletIcons({});
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const walletOptions = useMemo(() => [
+    { key: "rabby", label: "Rabby" },
+    { key: "metamask", label: "MetaMask" },
+    { key: "coinbase", label: "Coinbase" },
+    { key: "walletconnect", label: "WalletConnect" }
+  ].map((wallet) => ({ ...wallet, ...walletIcons[wallet.key] })), [walletIcons]);
 
   return (
     <section className="provider-sheet" aria-live="polite">
@@ -521,8 +566,12 @@ function ProviderStage({ isConnecting, onConnect, onGuest }) {
               onClick={onConnect}
               type="button"
             >
-              <span className={`wallet-option-mark wallet-option-${wallet.key}`} aria-hidden="true">
-                <img alt="" src={wallet.icon} />
+              <span
+                className={`wallet-option-mark wallet-option-${wallet.key}`}
+                style={{ "--wallet-icon-bg": wallet.iconBackground || "transparent" }}
+                aria-hidden="true"
+              >
+                {wallet.iconUrl ? <img alt="" src={wallet.iconUrl} /> : null}
               </span>
               <strong>{wallet.label}</strong>
               <small>{isConnecting ? "Connecting" : ">"}</small>

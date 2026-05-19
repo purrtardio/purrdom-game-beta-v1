@@ -428,16 +428,17 @@
 }
 
 .wallet-option-mark {
+  overflow: hidden;
   width: 36px;
   height: 36px;
   color: transparent;
-  background: transparent;
+  background: var(--wallet-icon-bg, transparent);
 }
 
 .wallet-option-mark img {
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
+  width: 36px;
+  height: 36px;
+  object-fit: cover;
 }
 
 .provider-note {

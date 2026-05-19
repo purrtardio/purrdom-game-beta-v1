@@ -3,6 +3,7 @@ import {
   coinbaseWallet,
   injectedWallet,
   metaMaskWallet,
+  rabbyWallet,
   rainbowWallet,
   walletConnectWallet
 } from "@rainbow-me/rainbowkit/wallets";
@@ -35,8 +36,8 @@ export const hyperEvm = {
 export const walletConnectProjectId = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID || "";
 const appName = "Purrdom";
 const rainbowWallets = walletConnectProjectId
-  ? [rainbowWallet, injectedWallet, walletConnectWallet, metaMaskWallet, coinbaseWallet]
-  : [injectedWallet, metaMaskWallet, coinbaseWallet];
+  ? [rainbowWallet, rabbyWallet, injectedWallet, walletConnectWallet, metaMaskWallet, coinbaseWallet]
+  : [rabbyWallet, injectedWallet, metaMaskWallet, coinbaseWallet];
 
 const connectors = connectorsForWallets(
   [
